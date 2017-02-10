@@ -1,39 +1,54 @@
 function updatePlayer(player) {
-    player.pos.x += player.move.x * player.speed;
-    player.pos.y += player.move.y * player.speed;
-}
+    let x = player.pos.x + player.move.x * player.speed;
+    let y = player.pos.y + player.move.y * player.speed;
 
-function updateProjectiles() {
-    for (i = 0; i < map.projectiles.length; i++) {
-        let p = map.projectiles[i];
-        p.pos.x += p.move.x * p.speed;
-        p.pos.y += p.move.y * p.speed;
+    // First move in x direction then in x
+    if (map.isWalkable(x, y)) {
+        player.pos.x = x;
+        player.pos.y = y;
+        return;
+    }
 
-        if (p.pos.x <= 0) {
-            p.move.x *= -1;
-        }
-        if (p.pos.y <= 0) {
-            p.move.y *= -1;
-        }
-        if (p.pos.x >= map.bounds.x) {
-            p.move.x *= -1;
-        }
-        if (p.pos.y >= map.bounds.y) {
-            p.move.y *= -1;
-        }
-
-        if (util.distance(player1.pos, p.pos) <= p.size) {
-            p.onPlayerCollision(player1);
-        }
-        if (util.distance(player2.pos, p.pos) <= p.size) {
-            p.onPlayerCollision(player2);
-        }
+    if (map.isWalkable(player.pos.x, y)) {
+        player.pos.y = y;
+    } else if (map.isWalkable(x, player.pos.y)) {
+        player.pos.x = x;
     }
 }
 
+function updateObjects() {
+    for (i = 0; i < map.gemos.length; i++) {
+        let p = map.gemos[i];
+        p.onTick();
+
+        if (p.pos.x <= 0)
+            p.onWallCollision();
+        if (p.pos.y <= 0)
+            p.onWallCollision();
+        if (p.pos.x >= map.bounds.x)
+            p.onWallCollision();
+        if (p.pos.y >= map.bounds.y)
+            p.onWallCollision();
+
+        if (util.distance(player1.pos, p.pos) <= (p.size + player1.size) / 2)
+            p.onPlayerCollision(player1);
+        if (util.distance(player2.pos, p.pos) <= (p.size + player2.size) / 2)
+            p.onPlayerCollision(player2);
+
+        if (p.isDead)
+            util.removeFromArray(map.gemos, i--);
+    }
+}
+
+tick = 0;
+
 function updateLogic() {
+    tick++;
+
     updatePlayer(player1);
     updatePlayer(player2);
 
-    updateProjectiles();
+    updateObjects();
+
+    map.onTick(tick);
 }

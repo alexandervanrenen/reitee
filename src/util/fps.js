@@ -1,10 +1,12 @@
-function Fps() {
-    this.lastCalledTime = Date.now();
-    this.fps = 0;
-    this.fps_display = "fps = ?";
+class Fps {
+    constructor() {
+        this.lastCalledTime = Date.now();
+        this.fps = 0;
+        this.fps_display = "fps = 60";
+    }
 
-    this.onUpdate = function fps_onUpdate(cc) {
-        delta = (Date.now() - this.lastCalledTime) / 1000;
+    onUpdate(cc) {
+        let delta = (Date.now() - this.lastCalledTime) / 1000;
         this.fps++;
         if (delta > 1) {
             this.lastCalledTime = Date.now();
@@ -12,7 +14,7 @@ function Fps() {
             this.fps = 0;
         }
         cc.font = "25px Arial";
-        cc.fillText(this.fps_display, 680, 20);
+        cc.fillText(this.fps_display, 680, 25);
     };
 }
 

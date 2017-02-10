@@ -1,16 +1,16 @@
-function drawPlayer(player) {
-    cc.fillStyle = player.color;
-    cc.fillRect(map.pos.x + player.pos.x, map.pos.y + player.pos.y, player.width, player.height);
+function drawCenteredRectangleInMap(x, y, width, height, color) {
+    cc.fillStyle = color;
+    cc.fillRect(map.pos.x + x - width / 2, map.pos.y + y - height / 2, width, height);
+}
+
+function drawPlayers() {
+    drawCenteredRectangleInMap(player1.pos.x, player1.pos.y, player1.size, player1.size, player1.color);
+    drawCenteredRectangleInMap(player2.pos.x, player2.pos.y, player2.size, player2.size, player2.color);
 }
 
 function drawField(field, x, y) {
     cc.fillStyle = field.color;
-    cc.fillRect(map.pos.x + x * map.fileSize + 1, map.pos.y + y * map.fileSize + 1, map.fileSize - 2, map.fileSize - 2);
-}
-
-function drawProjectile(projectile) {
-    cc.fillStyle = projectile.color;
-    cc.fillRect(map.pos.x + projectile.pos.x, map.pos.y + projectile.pos.y, projectile.size, projectile.size);
+    cc.fillRect(map.pos.x + x * map.fieldSize + 1, map.pos.y + y * map.fieldSize + 1, map.fieldSize - 2, map.fieldSize - 2);
 }
 
 function drawScores() {
@@ -40,12 +40,11 @@ function drawGraphics() {
 
     drawEffects();
 
-    for (i = 0; i < map.projectiles.length; i++) {
-        drawProjectile(map.projectiles[i]);
+    for (i = 0; i < map.gemos.length; i++) {
+        map.gemos[i].draw();
     }
 
-    drawPlayer(player1);
-    drawPlayer(player2);
+    drawPlayers();
 
     drawScores();
 }

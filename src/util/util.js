@@ -11,7 +11,12 @@ function Utility() {
         let b = pos1.y - pos2.y;
 
         return Math.sqrt(a * a + b * b);
-    }
+    };
+
+    this.removeFromArray = function (arr, pos) {
+        arr[pos] = arr[arr.length - 1];
+        arr.pop();
+    };
 }
 
 util = new Utility();
