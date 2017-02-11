@@ -13,13 +13,15 @@ function drawCenteredCircleInMap(x, y, radius, color, colorBorder) {
     cc.stroke();
 }
 
-function drawPlayers() {
-    for(let x=0; x<player1.styleDrag; x++) {
-        drawCenteredCircleInMap(player1.pos.x, player1.pos.y, player1.size, player1.color, "");
+function drawPlayer(player) {
+    for (let i = 0; i < player.styleDrag.length; i++) {
+        let pos = player.styleDrag[i];
+        let alpha = constants.playerDragFade[i];
+        let color = constants.colors.player.one.drag(alpha);
+        drawCenteredCircleInMap(pos.x, pos.y, player.size, color, "black");
     }
 
-    drawCenteredCircleInMap(player1.pos.x, player1.pos.y, player1.size, player1.color, "black");
-    drawCenteredCircleInMap(player2.pos.x, player2.pos.y, player2.size, player2.color, "black");
+    drawCenteredCircleInMap(player.pos.x, player.pos.y, player.size, player.colorScheme.main, "black");
 }
 
 function drawField(field, x, y) {
@@ -58,7 +60,8 @@ function drawGraphics() {
         map.gemos[i].draw();
     }
 
-    drawPlayers();
+    drawPlayer(player1);
+    drawPlayer(player2);
 
     drawMenu();
 

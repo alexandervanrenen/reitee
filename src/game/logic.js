@@ -16,6 +16,13 @@ function updatePlayer(player) {
     }
 }
 
+function updatePlayerStyleDrag(player) {
+    for (let i = 0; i < player.styleDrag.length - 1; i++) {
+        player.styleDrag[i].assign(player.styleDrag[i + 1]);
+    }
+    player.styleDrag[player.styleDrag.length - 1].assign(player.pos);
+}
+
 function updateObjects() {
     for (i = 0; i < map.gemos.length; i++) {
         let p = map.gemos[i];
@@ -46,7 +53,9 @@ function updateLogic() {
     tick++;
 
     updatePlayer(player1);
+    updatePlayerStyleDrag(player1);
     updatePlayer(player2);
+    updatePlayerStyleDrag(player2);
 
     updateObjects();
 

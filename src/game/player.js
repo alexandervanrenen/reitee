@@ -1,14 +1,14 @@
-function Player(color, pos) {
+function Player(colorScheme, pos) {
     this.pos = new Point(pos.x, pos.y);
     this.size = 20;
-    this.color = color;
+    this.colorScheme = colorScheme;
     this.move = {up: false, down: false, left: false, right: false, turbo: false};
-    this.speedFactor = 2.0;
+    this.maxSpeedFactor = 2.0;
     this.score = 0;
     this.spawnPos = new Point(pos.x, pos.y);
     this.styleDrag = new Array(constants.playerStyleDragLength);
-    for (let d of this.styleDrag)
-        d = new Point(pos.x, pos.y);
+    for (let i = 0; i < this.styleDrag.length; i++)
+        this.styleDrag[i] = new Point(pos.x, pos.y);
 
     this.moveUp = function (stop) {
         this.move.up = !stop;
@@ -32,13 +32,12 @@ function Player(color, pos) {
     };
 
     this.speed = function () {
-        return this.speedFactor * (this.move.turbo ? 2.0 : 1.0);
+        return this.maxSpeedFactor * (this.move.turbo ? 2.0 : 1.0);
     };
 
     this.onTeleport = function (pos) {
         this.pos.assign(pos);
-        for (let d of this.styleDrag) {
-            d.assign(pos);
-        }
+        for (let i = 0; i < this.styleDrag.length; i++)
+            this.styleDrag[i].assign(pos);
     }
 }

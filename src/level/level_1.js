@@ -41,10 +41,10 @@ class Level_1 {
     };
 
     createPlayer1() {
-        return new Player('blue', new Point(60 - map.fieldSize / 2, 90 + map.fieldSize /2 ));
+        return new Player(constants.colors.player.one, new Point(60 - map.fieldSize / 2, 90 + map.fieldSize / 2));
     }
 
     createPlayer2() {
-        return new Player('green', new Point(60 - map.fieldSize / 2, 180 + map.fieldSize /2 ));
+        return new Player(constants.colors.player.two, new Point(60 - map.fieldSize / 2, 180 + map.fieldSize / 2));
     }
 }
