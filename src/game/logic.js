@@ -83,6 +83,17 @@ function doVictoryCheck() {
     }
 }
 
+function updateSplashParticle() {
+    for (let i = 0; i < map.splashParticles.length; i++) {
+        let p = map.splashParticles[i];
+        p.onTick();
+
+        if (!map.isWalkable(p.pos.x, p.pos.y)) {
+            p.isDead = true;
+        }
+    }
+}
+
 function updateLogic() {
     map.tick++;
 
@@ -90,6 +101,7 @@ function updateLogic() {
     updatePlayerStyleDrag(player1);
     updatePlayer(player2);
     updatePlayerStyleDrag(player2);
+    updateSplashParticle();
 
     updateObjects();
 

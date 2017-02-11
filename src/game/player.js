@@ -58,6 +58,10 @@ function Player(pos, dragColorTable, name) {
     };
 
     this.die = function () {
+        for (let i = 0; i < 200; i++) {
+            map.splashParticles.push(new SplashParticle(this));
+        }
+
         this.death++;
         this.onTeleport(this.spawnPos);
     };

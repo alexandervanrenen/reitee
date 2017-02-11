@@ -10,7 +10,7 @@ function createDrawColorTable(scheme) { // Warning: these constants kind of depe
 
 constants = {
     fps: 30,
-    debug: false,
+    debug: true,
     playerStyleDragLength: 200,
 
     styleDrag: {
@@ -42,7 +42,8 @@ constants = {
     },
 
     menuTextColor: "white",
-    portalSprite: {path: "assets/portal_strip4.png", width: 1920 / 4, height: 312, frameCount: 4, updateRate: 0.1}
+    portalSprite: {path: "assets/portal_strip4.png", width: 1920 / 4, height: 312, frameCount: 4, updateRate: 0.1},
+    splashParticleColor: "red",
 };
 
 print = function (text) {

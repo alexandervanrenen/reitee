@@ -24,6 +24,28 @@ function StraightProjectile(pos, move, size) {
     };
 }
 
+class SplashParticle {
+    constructor(player) {
+        this.pos = new Point(player.pos.x, player.pos.y);
+        this.velocity = new Point((Math.random() - 0.5) + (Math.random() * 2 * player.velocity.x),
+            (Math.random() - 0.5) + (Math.random() * 2 * player.velocity.y));
+        this.isDead = false;
+        this.creationTick = map.tick;
+    }
+
+    onTick() {
+        this.pos.x += this.velocity.x;
+        this.pos.y += this.velocity.y;
+
+        this.velocity.y *= 0.99;
+        this.velocity.x *= 0.99;
+
+        if (this.creationTick + 30 < map.tick) {
+            this.isDead = true;
+        }
+    }
+}
+
 class Map {
     constructor() {
         this.pos = {x: 0, y: 0};
@@ -33,6 +55,8 @@ class Map {
         this.fields = new Array(0);
         this.gemos = new Array(0);
         this.tick = 0;
+        this.backCanvas = null;
+        this.backCtx = null;
 
         this.onTick = function () {
         };
@@ -58,6 +82,8 @@ class Map {
         };
 
         this.portal = null;
+
+        this.splashParticles = new Array(0);
     }
 }
 

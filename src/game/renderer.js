@@ -20,6 +20,13 @@ function drawCenteredCircleInMap(x, y, radius, color) {
     cc.fill();
 }
 
+function drawCenteredCircleInMap_back(x, y, radius, color) {
+    map.backCtx.beginPath();
+    map.backCtx.arc(map.pos.x + x, map.pos.y + y, radius / 2, 0, 2 * Math.PI, false);
+    map.backCtx.fillStyle = color;
+    map.backCtx.fill();
+}
+
 function drawPlayers() {
     for (let i = 0; i < player1.styleDrag.length; i++) {
         let pos = player1.styleDrag[i].pos;
@@ -32,9 +39,14 @@ function drawPlayers() {
     }
 }
 
-function drawField(field, x, y) {
-    cc.fillStyle = field.color;
-    cc.fillRect(map.pos.x + x * map.fieldSize + 1, map.pos.y + y * map.fieldSize + 1, map.fieldSize - 2, map.fieldSize - 2);
+function drawFields(genericCanvas) {
+    for (y = 0; y < map.fields.length; y++) {
+        for (x = 0; x < map.fields[y].length; x++) {
+            let field = map.fields[y][x];
+            genericCanvas.fillStyle = field.color;
+            genericCanvas.fillRect(map.pos.x + x * map.fieldSize + 1, map.pos.y + y * map.fieldSize + 1, map.fieldSize - 2, map.fieldSize - 2);
+        }
+    }
 }
 
 function drawMenu_player(offset, player) {
@@ -56,7 +68,6 @@ function drawMenu_maps(offset) {
 }
 
 function drawMenu() {
-
     drawMenu_maps({x: 50, y: 30});
     drawMenu_player({x: 100, y: 560}, player1);
     drawMenu_player({x: 400, y: 560}, player2);
@@ -72,19 +83,44 @@ function drawPortal() {
     }
 }
 
+function drawSplashParticles() {
+    for (let i = 0; i < map.splashParticles.length; i++) {
+        let p = map.splashParticles[i];
+        drawCenteredCircleInMap(p.pos.x, p.pos.y, 3, constants.splashParticleColor);
+
+        if (map.splashParticles[i].isDead) {
+            drawCenteredCircleInMap_back(p.pos.x, p.pos.y, 3, constants.splashParticleColor);
+            util.removeFromArray(map.splashParticles, i--);
+        }
+    }
+}
+
+function drawPassiveMapStructure() {
+    if (map.backCanvas == null) {
+        map.backCanvas = document.createElement('canvas');
+        map.backCanvas.width = c.width;
+        map.backCanvas.height = c.height;
+        map.backCtx = map.backCanvas.getContext('2d');
+
+        map.backCtx.fillStyle = constants.backGroundColor;
+        map.backCtx.fillRect(0, 0, c.width, c.height);
+        drawFields(map.backCtx);
+    }
+
+    cc.drawImage(map.backCanvas, 0, 0);
+}
+
 function drawGraphics() {
     cc.fillStyle = constants.backGroundColor;
     cc.fillRect(0, 0, c.width, c.height);
 
-    for (y = 0; y < map.fields.length; y++) {
-        for (x = 0; x < map.fields[y].length; x++) {
-            drawField(map.fields[y][x], x, y);
-        }
-    }
+    drawPassiveMapStructure();
 
     for (i = 0; i < map.gemos.length; i++) {
         map.gemos[i].draw();
     }
+
+    drawSplashParticles();
 
     drawPlayers();
 
