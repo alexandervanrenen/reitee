@@ -57,6 +57,7 @@ class Map {
         this.tick = 0;
         this.backCanvas = null;
         this.backCtx = null;
+        this.blood = 0;
 
         this.onTick = function () {
         };

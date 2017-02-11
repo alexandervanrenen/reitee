@@ -3,6 +3,7 @@ class Level_1 {
     createMap() {
         let map = new Map();
 
+        map.id = 1;
         map.name = "Level 1";
         map.pos = {x: 40, y: 50};
         map.fieldSize = 30;

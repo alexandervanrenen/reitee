@@ -50,10 +50,10 @@ function drawFields(genericCanvas) {
 }
 
 function drawMenu_player(offset, player) {
-    cc.font = "25px Arial";
-    cc.fillText(player.name, offset.x + 50, offset.y);
+    cc.font = "18px Arial";
+    cc.fillText(player.name, offset.x, offset.y);
     cc.font = "15px Arial";
-    cc.fillText("Death Counter: " + player.death, offset.x, offset.y + 30);
+    cc.fillText("Death: " + player.death, offset.x + 80, offset.y);
 }
 
 function drawMenu_maps(offset) {
@@ -63,14 +63,50 @@ function drawMenu_maps(offset) {
 
     cc.font = "15px Arial";
     for (let x = 1; x <= 20; x++) {
+        cc.fillStyle = x == map.id ? constants.menuActiveLevelColor : constants.menuTextColor;
         cc.fillText(x, 100 + offset.x + x * 20, 1 + offset.y);
+    }
+}
+
+function drawBloodCount(offset) {
+    let blood = map.blood;
+
+    if (blood == 0) {
+        cc.font = "20px Arial";
+        cc.fillStyle = constants.menuTextColor;
+        cc.fillText("No Bloodshed", offset.x, offset.y);
+    } else if (blood < 500) {
+        cc.font = "20px Arial";
+        cc.fillStyle = constants.menuTextColor;
+        cc.fillText("a little bit of blood: " + blood, offset.x, offset.y);
+    } else if (blood < 1000) {
+        cc.font = "22px Arial";
+        cc.fillStyle = constants.bloodCounterLight;
+        cc.fillText("there is some BLOOD: " + blood, offset.x, offset.y);
+    } else if (blood < 2000) {
+        cc.font = "24px Comic Sans MS";
+        cc.fillStyle = constants.bloodCounterMedium;
+        cc.fillText("OMG, So Much BLOOD: " + blood, offset.x, offset.y);
+    } else if (blood < 5000) {
+        cc.font = "bold 26px Comic Sans MS";
+        cc.fillStyle = constants.bloodCounterMedium;
+        cc.fillText("WTF!! BLOOD EVERYWHERE: " + blood, offset.x, offset.y);
+    } else if (blood < 10000) {
+        cc.font = "bolder 28px Comic Sans MS";
+        cc.fillStyle = constants.bloodCounterExtreme;
+        cc.fillText("BLOOD BLOOD BLOOD !!!!! " + blood, offset.x, offset.y);
+    } else {
+        cc.font = "22px Arial";
+        cc.fillStyle = constants.menuTextColor;
+        cc.fillText("ok now, now finish the level already .." + blood, offset.x, offset.y);
     }
 }
 
 function drawMenu() {
     drawMenu_maps({x: 50, y: 30});
-    drawMenu_player({x: 100, y: 560}, player1);
-    drawMenu_player({x: 400, y: 560}, player2);
+    drawMenu_player({x: 100, y: 550}, player1);
+    drawMenu_player({x: 100, y: 580}, player2);
+    drawBloodCount({x: 300, y: 570});
 
     if (constants.debug) {
         fpsCounter.onUpdate(cc);
@@ -84,13 +120,28 @@ function drawPortal() {
 }
 
 function drawSplashParticles() {
+    let anyoneWasDead = false;
     for (let i = 0; i < map.splashParticles.length; i++) {
         let p = map.splashParticles[i];
         drawCenteredCircleInMap(p.pos.x, p.pos.y, 3, constants.splashParticleColor);
 
         if (map.splashParticles[i].isDead) {
+            anyoneWasDead = true;
             drawCenteredCircleInMap_back(p.pos.x, p.pos.y, 3, constants.splashParticleColor);
             util.removeFromArray(map.splashParticles, i--);
+        }
+    }
+
+    // Redo blood counter
+    if (anyoneWasDead) {
+        let imgd = map.backCtx.getImageData(x, y, c.width, c.height);
+        let pix = imgd.data;
+        map.blood = 0;
+
+        for (let i = 0, n = pix.length; i < n; i += 4) {
+            if (pix[i] == 255 && pix[i + 1] == 0 && pix[i + 2] == 0 && pix[i + 3] == 255) {
+                map.blood++;
+            }
         }
     }
 }

@@ -42,6 +42,10 @@ constants = {
     },
 
     menuTextColor: "white",
+    bloodCounterLight: "rgb(191,77,40)",
+    bloodCounterMedium: "rgb(138,7,7)",
+    bloodCounterExtreme: "rgb(174,7,10)",
+    menuActiveLevelColor: "gold",
     portalSprite: {path: "assets/portal_strip4.png", width: 1920 / 4, height: 312, frameCount: 4, updateRate: 0.1},
     splashParticleColor: "red",
 };
