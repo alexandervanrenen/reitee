@@ -73,6 +73,12 @@ function updateObjects() {
     }
 }
 
+function doVictoryCheck() {
+    if (map.portal.area.isPointInside(player1.pos.x, player1.pos.y) || map.portal.area.isPointInside(player2.pos.x, player2.pos.y)) {
+        throw "Victory";
+    }
+}
+
 function updateLogic() {
     map.tick++;
 
@@ -84,4 +90,6 @@ function updateLogic() {
     updateObjects();
 
     map.onTick();
+
+    doVictoryCheck();
 }

@@ -25,15 +25,16 @@ class DragParticle {
     }
 }
 
-function Player(pos, dragColorTable) {
+function Player(pos, dragColorTable, name) {
     this.pos = new Point(pos.x, pos.y);
     this.size = 20;
     this.move = {up: false, down: false, left: false, right: false, turbo: false};
     this.maxSpeed = 1.8;
     this.acceleration = 0.2;
     this.velocity = new Point(0.0, 0.0);
-    this.score = 0;
+    this.death = 0;
     this.spawnPos = new Point(pos.x, pos.y);
+    this.name = name;
 
     // Style drag
     this.styleDrag = new Array(constants.playerStyleDragLength);
@@ -57,7 +58,7 @@ function Player(pos, dragColorTable) {
     };
 
     this.die = function () {
-        this.score -= 5;
+        this.death++;
         this.onTeleport(this.spawnPos);
     };
 

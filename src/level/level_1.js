@@ -3,11 +3,16 @@ class Level_1 {
     createMap() {
         let map = new Map();
 
+        map.name = "Level 1";
         map.pos = {x: 20, y: 50};
         map.fieldSize = 30;
         map.fieldBounds = {x: 18, y: 10};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
-        map.victory = {area: new Area(30 * 17 - 15, 30 * 4 - 15, 30, 60), color: constants.victoryAreaColor, next: new Level_2()};
+        map.portal = {
+            area: new Area(30 * 17 - 15, 30 * 4 + 15, 30, 30),
+            sprite: new Sprite(constants.portalSprite),
+            next: new Level_2()
+        };
 
         map.fields = new Array(map.fieldBounds.y);
         for (let y = 0; y < map.fieldBounds.y; y++) {
@@ -31,20 +36,16 @@ class Level_1 {
                 map.gemos.push(new StraightProjectile({x: map.fieldSize * 9, y: 0}, {x: 0, y: 2.0}, 12));
                 map.gemos.push(new StraightProjectile({x: map.fieldSize * 9 + 18, y: 0}, {x: 0, y: 2.0}, 12));
             }
-
-            if (map.victory.area.isPointInside(player1.pos.x, player1.pos.y) || map.victory.area.isPointInside(player2.pos.x, player2.pos.y)) {
-                throw "Victory";
-            }
         };
 
         return map;
     };
 
     createPlayer1() {
-        return new Player(new Point(60 - map.fieldSize / 2, 90 + map.fieldSize / 2), constants.player1.colorTable);
+        return new Player(new Point(60 - map.fieldSize / 2, 90 + map.fieldSize / 2), constants.player1.colorTable, constants.player1.name);
     }
 
     createPlayer2() {
-        return new Player(new Point(60 - map.fieldSize / 2, 180 + map.fieldSize / 2), constants.player2.colorTable);
+        return new Player(new Point(60 - map.fieldSize / 2, 180 + map.fieldSize / 2), constants.player2.colorTable, constants.player2.name);
     }
 }

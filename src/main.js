@@ -16,7 +16,7 @@ function onTick() {
     }
     catch (err) {
         if (err == "Victory") {
-            loadLevel(map.victory.next);
+            loadLevel(map.portal.next);
         } else {
             throw err;
         }

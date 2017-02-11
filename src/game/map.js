@@ -20,7 +20,7 @@ function StraightProjectile(pos, move, size) {
     };
 
     this.draw = function () {
-        drawCenteredRectangleInMap(this.pos.x, this.pos.y, this.size, this.size, this.color);
+        drawCenteredCircleInMapWithBorder(this.pos.x, this.pos.y, this.size, this.color, "black", 1);
     };
 }
 
@@ -32,7 +32,6 @@ class Map {
         this.bounds = {x: 0, y: 0};
         this.fields = new Array(0);
         this.gemos = new Array(0);
-        this.victory = null;
         this.tick = 0;
 
         this.onTick = function () {
@@ -52,7 +51,9 @@ class Map {
                 }
             }
             return false;
-        }
+        };
+
+        this.portal = null;
     }
 }
 

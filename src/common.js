@@ -4,7 +4,6 @@ function createDrawColorTable(scheme) { // Warning: these constants kind of depe
     while (alpha > 0.001) {
         arr.push(scheme + alpha + ")");
         alpha *= 0.9;
-        console.log(scheme + alpha + ")");
     }
     return arr;
 }
@@ -20,10 +19,12 @@ constants = {
     },
 
     player1: {
+        name: "Player 1",
         colorTable: createDrawColorTable("rgba(17, 160, 255, ")
     },
 
     player2: {
+        name: "Player 2",
         colorTable: createDrawColorTable("rgba(243, 156, 18, ")
     },
 
@@ -39,7 +40,8 @@ constants = {
         non_walkable: "rgb(100,100,100)"
     },
 
-    menuTextColor: "white"
+    menuTextColor: "white",
+    portalSprite: {path: "assets/portal_strip4.png", width: 1920 / 4, height: 312, frameCount: 4, updateRate: 0.1}
 };
 
 print = function (text) {
