@@ -18,16 +18,16 @@ class Level_2 {
                 if (x == 8 && y != 1
                     || x == 10 && y != 8
                     || x == 6 && y != 8) {
-                    map.fields[y][x] = {walkable: false, color: 'brown'};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
                 }
                 else {
-                    map.fields[y][x] = {walkable: true, color: 'yellow'};
+                    map.fields[y][x] = {walkable: true, color: constants.fields.walkable};
                 }
             }
         }
 
-        map.onTick = function (tick) {
-            if (tick % 60 == 0) {
+        map.onTick = function () {
+            if (map.tick % 60 == 0) {
                 map.gemos.push(new StraightProjectile({x: map.fieldSize * 7.5, y: 299}, {x: 0, y: -2.0}, 12));
                 map.gemos.push(new StraightProjectile({x: map.fieldSize * 9.5, y: 0}, {x: 0, y: 2.0}, 12));
             }
@@ -41,10 +41,10 @@ class Level_2 {
     };
 
     createPlayer1() {
-        return new Player(constants.colors.player.one, new Point(60 - map.fieldSize / 2, 90 + map.fieldSize /2 ));
+        return new Player(new Point(60 - map.fieldSize / 2, 90 + map.fieldSize / 2), constants.player1.colorTable);
     }
 
     createPlayer2() {
-        return new Player(constants.colors.player.two, new Point(60 - map.fieldSize / 2, 180 + map.fieldSize /2 ));
+        return new Player(new Point(60 - map.fieldSize / 2, 180 + map.fieldSize / 2), constants.player2.colorTable);
     }
 }

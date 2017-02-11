@@ -17,10 +17,8 @@ function onTick() {
     catch (err) {
         if (err == "Victory") {
             loadLevel(map.victory.next);
+        } else {
+            throw err;
         }
-    }
-
-    if (constants.debug) {
-        fpsCounter.onUpdate(cc);
     }
 }

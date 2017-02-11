@@ -2,16 +2,16 @@ function StraightProjectile(pos, move, size) {
     this.pos = {x: pos.x, y: pos.y};
     this.move = move;
     this.size = size;
-    this.color = 'black';
+    this.color = constants.projectile.color;
     this.isDead = false;
 
     this.onWallCollision = function () {
-        isDead = true;
+        this.isDead = true;
     };
 
     this.onPlayerCollision = function (player) {
         player.die();
-        isDead = true;
+        this.isDead = true;
     };
 
     this.onTick = function () {
@@ -24,12 +24,6 @@ function StraightProjectile(pos, move, size) {
     };
 }
 
-function Effect(pos) {
-    this.pos = {x: pos.x, y: pos.y};
-    this.size = 3;
-    this.color = 'black';
-}
-
 class Map {
     constructor() {
         this.pos = {x: 0, y: 0};
@@ -37,9 +31,9 @@ class Map {
         this.fieldBounds = {x: 0, y: 0};
         this.bounds = {x: 0, y: 0};
         this.fields = new Array(0);
-        this.effects = new Array(0);
         this.gemos = new Array(0);
         this.victory = null;
+        this.tick = 0;
 
         this.onTick = function () {
         };

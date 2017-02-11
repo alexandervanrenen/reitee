@@ -1,16 +1,44 @@
-function Player(colorScheme, pos) {
+class DragParticle {
+
+    constructor(x, y, despawnChance, colorTable) {
+        this.pos = new Point(x, y);
+        this.alpha = 1.0;
+        this.colorTable = colorTable;
+        this.despawnChance = despawnChance;
+        this.ticks = 0;
+    }
+
+    getColor() {
+        return this.colorTable[this.ticks];
+    }
+
+    onTick(playerPos) {
+        this.alpha *= 0.9;
+        this.ticks++;
+        if (this.alpha <= 0.001 || Math.random() <= this.despawnChance) {
+            let angle = Math.random() * Math.PI * 2;
+            this.pos.x = playerPos.x + Math.cos(angle) * (Math.random() * Math.random()) * 10;
+            this.pos.y = playerPos.y + Math.sin(angle) * (Math.random() * Math.random()) * 10;
+            this.alpha = 1.0;
+            this.ticks = 0;
+        }
+    }
+}
+
+function Player(pos, dragColorTable) {
     this.pos = new Point(pos.x, pos.y);
     this.size = 20;
-    this.colorScheme = colorScheme;
     this.move = {up: false, down: false, left: false, right: false, turbo: false};
-    this.maxSpeed = 2.0;
+    this.maxSpeed = 1.8;
     this.acceleration = 0.2;
     this.velocity = new Point(0.0, 0.0);
     this.score = 0;
     this.spawnPos = new Point(pos.x, pos.y);
+
+    // Style drag
     this.styleDrag = new Array(constants.playerStyleDragLength);
     for (let i = 0; i < this.styleDrag.length; i++)
-        this.styleDrag[i] = new Point(pos.x, pos.y);
+        this.styleDrag[i] = new DragParticle(pos.x, pos.y, constants.styleDrag.despawnChance, dragColorTable);
 
     this.moveUp = function (stop) {
         this.move.up = !stop;
@@ -36,6 +64,6 @@ function Player(colorScheme, pos) {
     this.onTeleport = function (pos) {
         this.pos.assign(pos);
         for (let i = 0; i < this.styleDrag.length; i++)
-            this.styleDrag[i].assign(pos);
+            this.styleDrag[i].pos.assign(pos);
     }
 }

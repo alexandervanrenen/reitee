@@ -18,7 +18,7 @@ function updatePlayer(player) {
         }
     }
 
-    let maxSpeed = player.move.turbo ? player.maxSpeed * 2.0 : player.maxSpeed;
+    let maxSpeed = player.move.turbo ? player.maxSpeed * 1.7 : player.maxSpeed;
 
     player.velocity.x += commanded_x_direction * (maxSpeed - player.velocity.x) * (player.move.turbo ? 0.1 : 0.5);
     player.velocity.y += commanded_y_direction * (maxSpeed - player.velocity.y) * (player.move.turbo ? 0.1 : 0.5);
@@ -44,10 +44,9 @@ function updatePlayer(player) {
 }
 
 function updatePlayerStyleDrag(player) {
-    for (let i = 0; i < player.styleDrag.length - 1; i++) {
-        player.styleDrag[i].assign(player.styleDrag[i + 1]);
+    for (let i = 0; i < player.styleDrag.length; i++) {
+        player.styleDrag[i].onTick(player.pos);
     }
-    player.styleDrag[player.styleDrag.length - 1].assign(player.pos);
 }
 
 function updateObjects() {
@@ -74,10 +73,8 @@ function updateObjects() {
     }
 }
 
-tick = 0;
-
 function updateLogic() {
-    tick++;
+    map.tick++;
 
     updatePlayer(player1);
     updatePlayerStyleDrag(player1);
@@ -86,5 +83,5 @@ function updateLogic() {
 
     updateObjects();
 
-    map.onTick(tick);
+    map.onTick();
 }
