@@ -45,20 +45,21 @@ function drawMenu_player(offset, player) {
 }
 
 function drawMenu_maps(offset) {
+    cc.font = "25px Arial";
+    cc.fillStyle = constants.menuTextColor;
+    cc.fillText(map.name, offset.x, offset.y);
+
     cc.font = "15px Arial";
-    for (let x = 0; x < 20; x++) {
-        cc.fillText(x, offset.x + x * 20, offset.y);
+    for (let x = 1; x <= 20; x++) {
+        cc.fillText(x, 100 + offset.x + x * 20, 1 + offset.y);
     }
 }
 
 function drawMenu() {
-    cc.font = "25px Arial";
-    cc.fillStyle = constants.menuTextColor;
-    cc.fillText(map.name, 230, 30);
 
-    drawMenu_maps({x: 100, y: 400});
-    drawMenu_player({x: 100, y: 500}, player1);
-    drawMenu_player({x: 400, y: 500}, player2);
+    drawMenu_maps({x: 50, y: 30});
+    drawMenu_player({x: 100, y: 560}, player1);
+    drawMenu_player({x: 400, y: 560}, player2);
 
     if (constants.debug) {
         fpsCounter.onUpdate(cc);

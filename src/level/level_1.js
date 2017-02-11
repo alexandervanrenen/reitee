@@ -4,12 +4,12 @@ class Level_1 {
         let map = new Map();
 
         map.name = "Level 1";
-        map.pos = {x: 20, y: 50};
+        map.pos = {x: 40, y: 50};
         map.fieldSize = 30;
-        map.fieldBounds = {x: 18, y: 10};
+        map.fieldBounds = {x: 24, y: 16};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
         map.portal = {
-            area: new Area(30 * 17 - 15, 30 * 4 + 15, 30, 30),
+            area: new Area(map.f_to_r(14), map.f_to_r(7.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
             next: new Level_2()
         };
@@ -18,10 +18,19 @@ class Level_1 {
         for (let y = 0; y < map.fieldBounds.y; y++) {
             map.fields[y] = new Array(map.fieldBounds.x);
             for (let x = 0; x < map.fieldBounds.x; x++) {
+                // Border
+                if (x < 2 || x > 16 || y < 2 || y > 13) {
+                    map.fields[y][x] = {walkable: false, color: constants.fields.outside};
+                    continue;
+                }
+                if (x < 3 || x > 15 || y < 3 || y > 12) {
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
+                    continue;
+                }
 
-                // Vertical Line
-                if (x == 7 && (y != 4 && y != 5)
-                    || x == 10 && (y != 4 && y != 5)) {
+                // Actual map
+                if (x == 7 && (y != 7 && y != 8)
+                    || x == 10 && (y != 7 && y != 8)) {
                     map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
                 }
                 else {
@@ -32,9 +41,9 @@ class Level_1 {
 
         map.onTick = function () {
             if (map.tick % 60 == 0) {
-                map.gemos.push(new StraightProjectile({x: map.fieldSize * 9 - 18, y: 0}, {x: 0, y: 2.0}, 12));
-                map.gemos.push(new StraightProjectile({x: map.fieldSize * 9, y: 0}, {x: 0, y: 2.0}, 12));
-                map.gemos.push(new StraightProjectile({x: map.fieldSize * 9 + 18, y: 0}, {x: 0, y: 2.0}, 12));
+                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(8.5), map.f_to_r(3.0)), new Point(0, 2.0), 12));
+                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(9.0), map.f_to_r(3.0)), new Point(0, 2.0), 12));
+                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(3.0)), new Point(0, 2.0), 12));
             }
         };
 
@@ -42,10 +51,10 @@ class Level_1 {
     };
 
     createPlayer1() {
-        return new Player(new Point(60 - map.fieldSize / 2, 90 + map.fieldSize / 2), constants.player1.colorTable, constants.player1.name);
+        return new Player(new Point(map.f_to_r(4.5), map.f_to_r(6.5)), constants.player1.colorTable, constants.player1.name);
     }
 
     createPlayer2() {
-        return new Player(new Point(60 - map.fieldSize / 2, 180 + map.fieldSize / 2), constants.player2.colorTable, constants.player2.name);
+        return new Player(new Point(map.f_to_r(4.5), map.f_to_r(9.5)), constants.player2.colorTable, constants.player2.name);
     }
 }

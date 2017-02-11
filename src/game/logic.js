@@ -18,7 +18,7 @@ function updatePlayer(player) {
         }
     }
 
-    let maxSpeed = player.move.turbo ? player.maxSpeed * 1.7 : player.maxSpeed;
+    let maxSpeed = player.move.turbo ? player.maxSpeed * 2.0 : player.maxSpeed;
 
     player.velocity.x += commanded_x_direction * (maxSpeed - player.velocity.x) * (player.move.turbo ? 0.1 : 0.5);
     player.velocity.y += commanded_y_direction * (maxSpeed - player.velocity.y) * (player.move.turbo ? 0.1 : 0.5);
@@ -62,6 +62,10 @@ function updateObjects() {
             p.onWallCollision();
         if (p.pos.y >= map.bounds.y)
             p.onWallCollision();
+
+        if (!map.isWalkable(p.pos.x, p.pos.y)) {
+            p.onWallCollision();
+        }
 
         if (util.distance(player1.pos, p.pos) <= (p.size + player1.size) / 2)
             p.onPlayerCollision(player1);

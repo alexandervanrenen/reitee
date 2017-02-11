@@ -53,11 +53,17 @@ class Map {
             return false;
         };
 
+        this.f_to_r = function (x) {
+            return x * this.fieldSize;
+        };
+
         this.portal = null;
     }
 }
 
-function loadLevel(levelGenerator) {
+function
+
+loadLevel(levelGenerator) {
     map = levelGenerator.createMap();
     player1 = levelGenerator.createPlayer1();
     player2 = levelGenerator.createPlayer2();

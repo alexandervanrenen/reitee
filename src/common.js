@@ -10,7 +10,7 @@ function createDrawColorTable(scheme) { // Warning: these constants kind of depe
 
 constants = {
     fps: 30,
-    debug: true,
+    debug: false,
     playerStyleDragLength: 200,
 
     styleDrag: {
@@ -37,7 +37,8 @@ constants = {
 
     fields: {
         walkable: "white",
-        non_walkable: "rgb(100,100,100)"
+        non_walkable: "rgb(110,110,110)",
+        outside: "rgb(40,40,40)"
     },
 
     menuTextColor: "white",

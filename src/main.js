@@ -4,7 +4,7 @@ window.onload = function () {
     window.onkeyup = onUserInput;
     cc = c.getContext('2d');
 
-    loadLevel(new Level_1());
+    loadLevel(new Level_2());
 
     setInterval(onTick, 1000 / 60);
 };
