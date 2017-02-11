@@ -17,6 +17,14 @@ function Utility() {
         arr[pos] = arr[arr.length - 1];
         arr.pop();
     };
+
+    this.cap = function (val, min, max) {
+        if(val < min)
+            return min;
+        if(val > max)
+            return max;
+        return val;
+    };
 }
 
 util = new Utility();

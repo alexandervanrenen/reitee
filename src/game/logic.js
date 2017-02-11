@@ -1,8 +1,35 @@
 function updatePlayer(player) {
-    let x = player.pos.x + (player.move.left ? -player.speed() : 0) + (player.move.right ? player.speed() : 0);
-    let y = player.pos.y + (player.move.up ? -player.speed() : 0) + (player.move.down ? player.speed() : 0);
+    // Update velocity
+    let commanded_x_direction = (player.move.left ? -1 : 0) + (player.move.right ? 1 : 0);
+    let commanded_y_direction = (player.move.up ? -1 : 0) + (player.move.down ? 1 : 0);
 
-    // First move in x direction then in x
+    if (commanded_x_direction == 0 && Math.abs(player.velocity.x) > 0) { // Decelerate x
+        if (Math.abs(player.velocity.x) > player.acceleration) {
+            player.velocity.x -= Math.sign(player.velocity.x) * player.acceleration;
+        } else {
+            player.velocity.x = 0;
+        }
+    }
+    if (commanded_y_direction == 0 && Math.abs(player.velocity.y) > 0) { // Decelerate y
+        if (Math.abs(player.velocity.y) > player.acceleration) {
+            player.velocity.y -= Math.sign(player.velocity.y) * player.acceleration;
+        } else {
+            player.velocity.y = 0;
+        }
+    }
+
+    let maxSpeed = player.move.turbo ? player.maxSpeed * 2.0 : player.maxSpeed;
+
+    player.velocity.x += commanded_x_direction * (maxSpeed - player.velocity.x) * (player.move.turbo ? 0.1 : 0.5);
+    player.velocity.y += commanded_y_direction * (maxSpeed - player.velocity.y) * (player.move.turbo ? 0.1 : 0.5);
+
+    player.velocity.x = util.cap(player.velocity.x, -maxSpeed, maxSpeed);
+    player.velocity.y = util.cap(player.velocity.y, -maxSpeed, maxSpeed);
+
+    // Try to update position
+    let x = player.pos.x + player.velocity.x;
+    let y = player.pos.y + player.velocity.y;
+
     if (map.isWalkable(x, y)) {
         player.pos.x = x;
         player.pos.y = y;

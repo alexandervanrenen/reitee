@@ -3,7 +3,9 @@ function Player(colorScheme, pos) {
     this.size = 20;
     this.colorScheme = colorScheme;
     this.move = {up: false, down: false, left: false, right: false, turbo: false};
-    this.maxSpeedFactor = 2.0;
+    this.maxSpeed = 2.0;
+    this.acceleration = 0.2;
+    this.velocity = new Point(0.0, 0.0);
     this.score = 0;
     this.spawnPos = new Point(pos.x, pos.y);
     this.styleDrag = new Array(constants.playerStyleDragLength);
@@ -29,10 +31,6 @@ function Player(colorScheme, pos) {
     this.die = function () {
         this.score -= 5;
         this.onTeleport(this.spawnPos);
-    };
-
-    this.speed = function () {
-        return this.maxSpeedFactor * (this.move.turbo ? 2.0 : 1.0);
     };
 
     this.onTeleport = function (pos) {
