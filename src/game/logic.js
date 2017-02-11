@@ -1,6 +1,6 @@
 function updatePlayer(player) {
-    let x = player.pos.x + player.move.x * player.speed;
-    let y = player.pos.y + player.move.y * player.speed;
+    let x = player.pos.x + (player.move.left ? -player.speed() : 0) + (player.move.right ? player.speed() : 0);
+    let y = player.pos.y + (player.move.up ? -player.speed() : 0) + (player.move.down ? player.speed() : 0);
 
     // First move in x direction then in x
     if (map.isWalkable(x, y)) {

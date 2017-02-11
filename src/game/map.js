@@ -39,6 +39,7 @@ class Map {
         this.fields = new Array(0);
         this.effects = new Array(0);
         this.gemos = new Array(0);
+        this.victory = null;
 
         this.onTick = function () {
         };
@@ -61,6 +62,8 @@ class Map {
     }
 }
 
-map = Level_1.createMap();
-player1 = Level_1.createPlayer1();
-player2 = Level_1.createPlayer2();
+function loadLevel(levelGenerator) {
+    map = levelGenerator.createMap();
+    player1 = levelGenerator.createPlayer1();
+    player2 = levelGenerator.createPlayer2();
+}

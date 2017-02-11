@@ -15,6 +15,9 @@ function onUserInput(e) {
         case 40:
             key = "down_arrow";
             break;
+        case 32:
+            key = "space";
+            break;
         default:
             key = String.fromCharCode(key);
             key = key.toLowerCase();
