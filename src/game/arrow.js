@@ -1,7 +1,7 @@
 class Arrow {
-    constructor(x, y, dir) {
+    constructor(x, y, direction) {
         this.x = x;
         this.y = y;
-        this.dir = dir;
+        this.direction = direction;
     }
 }

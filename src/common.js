@@ -11,6 +11,7 @@ function createDrawColorTable(scheme) { // Warning: these constants kind of depe
 constants = {
     fps: 30,
     debug: true,
+    disableElectrics: false,
     playerStyleDragLength: 200,
 
     styleDrag: {
@@ -57,9 +58,13 @@ constants = {
     },
 
     switches: {
-        pushing_normal: "rgb(77, 222, 77)",
-        pushing_pushed: "rgb(55, 123, 55)",
+        stand_on_normal: "rgb(77, 222, 77)",
+        stand_on_pushed: "rgb(55, 123, 55)",
+        push_once_normal: "rgb(222, 77, 77)",
+        push_once_pushed: "rgb(123, 55, 55)",
     },
+
+    arrowColor: "black",
 };
 
 print = function (text) {

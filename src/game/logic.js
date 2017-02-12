@@ -26,6 +26,20 @@ function updatePlayer(player) {
     player.velocity.x = util.cap(player.velocity.x, -maxSpeed, maxSpeed);
     player.velocity.y = util.cap(player.velocity.y, -maxSpeed, maxSpeed);
 
+    // Arrows
+    let arrow = map.fields[Math.floor(player.pos.y / map.fieldSize)][Math.floor(player.pos.x / map.fieldSize)].arrow;
+    if (arrow != null) {
+        if (arrow.direction == "up") {
+            player.velocity.y = -4;
+        } else if (arrow.direction == "down") {
+            player.velocity.y = 4;
+        } else if (arrow.direction == "left") {
+            player.velocity.x = -4;
+        } else if (arrow.direction == "right") {
+            player.velocity.x = 4;
+        }
+    }
+
     // Try to update position
     let x = player.pos.x + player.velocity.x;
     let y = player.pos.y + player.velocity.y;
@@ -86,7 +100,7 @@ function updateElectricLines() {
 }
 
 function doVictoryCheck() {
-    if (map.portal.area.isPointInside(player1.pos.x, player1.pos.y) || map.portal.area.isPointInside(player2.pos.x, player2.pos.y)) {
+    if (map.portal.area.isPointInside(player1.pos.x, player1.pos.y) && map.portal.area.isPointInside(player2.pos.x, player2.pos.y)) {
         throw "Victory";
     }
 }

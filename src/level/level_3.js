@@ -21,7 +21,7 @@ class Level_3 {
             for (let x = 0; x < map.fieldBounds.x; x++) {
                 // Border
                 if (x < 2 || x > 18 || y < 2 || y > 13) {
-                    map.fields[y][x] = {walkable: false, color: constants.fields.outside};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.outside, arrow: null};
                     continue;
                 }
                 // Actual map
@@ -32,11 +32,11 @@ class Level_3 {
                     ( x == 14 && y > 5 && y < 10) || // Backwall 1
                     ( x == 16 && y > 5 && y < 10) // Backwall 2
                 ) {
-                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable, arrow: null};
                     continue;
                 }
 
-                map.fields[y][x] = {walkable: true, color: constants.fields.walkable};
+                map.fields[y][x] = {walkable: true, color: constants.fields.walkable, arrow: null};
             }
         }
 
@@ -45,14 +45,30 @@ class Level_3 {
         map.electricLines.push(new ElectricLine(map.fp_to_rp(14.5, 11), map.fp_to_rp(14.5, 13), "player2"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(14.5, 3), map.fp_to_rp(14.5, 5), "player1"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(9.5, 7), map.fp_to_rp(9.5, 9), "all"));
-        map.electricLines.push(new ElectricLine(map.fp_to_rp(17, 11), map.fp_to_rp(18, 11), "player1"));
+        map.electricLines.push(new ElectricLine(map.fp_to_rp(17, 11), map.fp_to_rp(18, 11), "player2"));
+        map.electricLines.push(new ElectricLine(map.fp_to_rp(17, 5), map.fp_to_rp(18, 5), "player1"));
+        map.electricLines.push(new ElectricLine(map.fp_to_rp(15, 11), map.fp_to_rp(16, 11), "player1"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(15, 5), map.fp_to_rp(16, 5), "player2"));
 
-        map.switches.push(new Switch("pushing", map.f_to_r(11.5), map.f_to_r(3.5), 30, 30));
-        map.switches.push(new Switch("pushing", map.f_to_r(11.5), map.f_to_r(11.5), 30, 30));
+        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(3.66), 20, 20));
+        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(11.66), 20, 20));
+        map.switches.push(new Switch("push_once", map.f_to_r(16.15), map.f_to_r(12.15), 20, 20));
+
+        map.addArrow(15, 5, "up");
+        map.addArrow(15, 6, "up");
+        map.addArrow(15, 7, "up");
+        map.addArrow(15, 8, "up");
+        map.addArrow(15, 9, "up");
+        map.addArrow(15, 10, "up");
+
+        map.addArrow(17, 5, "down");
+        map.addArrow(17, 6, "down");
+        map.addArrow(17, 7, "down");
+        map.addArrow(17, 8, "down");
+        map.addArrow(17, 9, "down");
+        map.addArrow(17, 10, "down");
 
         map.onTick = function () {
-
         };
 
         return map;

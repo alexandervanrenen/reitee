@@ -197,6 +197,38 @@ function drawSwitches() {
     }
 }
 
+function drawArrows() {
+    cc.strokeStyle = constants.arrowColor;
+    for (let i = 0; i < map.arrows.length; i++) {
+        let p = map.arrows[i];
+        let xOffset = map.pos.x + p.x + map.fieldSize / 2;
+        let yOffset = map.pos.y + p.y + map.fieldSize / 2;
+        switch (p.direction) {
+            case "up": {
+                yOffset += Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
+                cc.beginPath();
+                cc.moveTo(xOffset - 10, yOffset + 5);
+                cc.lineTo(xOffset, yOffset - 5);
+                cc.lineTo(xOffset + 10, yOffset + 5);
+                cc.stroke();
+                break;
+            }
+            case "down" : {
+                yOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
+                cc.beginPath();
+                cc.moveTo(xOffset - 10, yOffset - 5);
+                cc.lineTo(xOffset, yOffset + 5);
+                cc.lineTo(xOffset + 10, yOffset - 5);
+                cc.stroke();
+                break;
+            }
+            default: {
+                throw "Not Implemented";
+            }
+        }
+    }
+}
+
 function drawGraphics() {
     cc.fillStyle = constants.backGroundColor;
     cc.fillRect(0, 0, c.width, c.height);
@@ -208,14 +240,11 @@ function drawGraphics() {
     }
 
     drawSplashParticles();
-
     drawElectricLines();
-
     drawSwitches();
-
     drawPlayers();
-
     drawPortal();
+    drawArrows();
 
     drawMenu();
 }

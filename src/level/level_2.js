@@ -21,11 +21,11 @@ class Level_2 {
             for (let x = 0; x < map.fieldBounds.x; x++) {
                 // Border
                 if (x < 2 || x > 16 || y < 2 || y > 13) {
-                    map.fields[y][x] = {walkable: false, color: constants.fields.outside};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.outside, arrow: null};
                     continue;
                 }
                 if (x < 3 || x > 15 || y < 3 || y > 12) {
-                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable, arrow: null};
                     continue;
                 }
 
@@ -33,10 +33,10 @@ class Level_2 {
                 if (x == 8 && y != 4
                     || x == 6 && y != 11
                     || x == 10 && y != 11) {
-                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable};
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable, arrow: null};
                 }
                 else {
-                    map.fields[y][x] = {walkable: true, color: constants.fields.walkable};
+                    map.fields[y][x] = {walkable: true, color: constants.fields.walkable, arrow: null};
                 }
             }
         }

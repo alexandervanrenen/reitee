@@ -27,27 +27,57 @@ function StraightProjectile(pos, move, size) {
 class Switch {
     constructor(type, x, y, width, height) {
         this.type = type;
-        this.colorNormal = constants.switches.pushing_normal;
-        this.colorPushed = constants.switches.pushing_pushed;
+        if (this.type == "stand_on") {
+            this.colorNormal = constants.switches.stand_on_normal;
+            this.colorPushed = constants.switches.stand_on_pushed;
+        } else if (this.type == "push_once") {
+            this.colorNormal = constants.switches.push_once_normal;
+            this.colorPushed = constants.switches.push_once_pushed;
+        }
         this.area = new Area(x, y, width, height);
         this.someoneIn = false;
+        this.isDown = false;
+    }
+
+    reset() {
+        if (this.type == "push_once") {
+            if (this.isDown) {
+                for (let x of map.electricLines) {
+                    x.swapPolarity();
+                }
+                this.isDown = false;
+            }
+            return;
+        }
     }
 
     getColor() {
-        return this.someoneIn ? this.colorPushed : this.colorNormal;
+        if (this.type == "stand_on") {
+            return this.someoneIn ? this.colorPushed : this.colorNormal;
+        } else if (this.type == "push_once") {
+            return this.isDown ? this.colorPushed : this.colorNormal;
+        }
+        throw "Not Implemented";
     }
 
     onTick() {
         if (this.area.isPointInside(player1.pos.x, player1.pos.y) || this.area.isPointInside(player2.pos.x, player2.pos.y)) {
             if (!this.someoneIn) {
                 // Someone entered
-                if (this.type == "pushing") {
+                if (this.type == "stand_on") {
                     if (map.pushingSwitchCounter == 0) {
                         for (let x of map.electricLines) {
-                            x.switchPolarity();
+                            x.swapPolarity();
                         }
                     }
                     map.pushingSwitchCounter++;
+                } else if (this.type == "push_once") {
+                    if (this.isDown == 0) {
+                        this.isDown = true;
+                        for (let x of map.electricLines) {
+                            x.swapPolarity();
+                        }
+                    }
                 } else {
                     throw "Not Implemented";
                 }
@@ -56,13 +86,14 @@ class Switch {
         } else {
             if (this.someoneIn) {
                 // Someone left
-                if (this.type == "pushing") {
+                if (this.type == "stand_on") {
                     map.pushingSwitchCounter--;
                     if (map.pushingSwitchCounter == 0) {
                         for (let x of map.electricLines) {
-                            x.switchPolarity();
+                            x.swapPolarity();
                         }
                     }
+                } else if (this.type == "push_once") {
                 } else {
                     throw "Not Implemented";
                 }
@@ -104,7 +135,11 @@ class ElectricLine {
             this.points[i] = new Array(0);
         }
         this.updatePoints();
-        this.area = new Area(this.begin.x - 5, this.begin.y, 10, Math.abs(this.begin.y - this.end.y));
+        if (this.begin.x == this.end.x) {
+            this.area = new Area(this.begin.x - 5, this.begin.y, 10, Math.abs(this.begin.y - this.end.y));
+        } else {
+            this.area = new Area(this.begin.x, this.begin.y - 5, Math.abs(this.begin.x - this.end.x), 10);
+        }
 
         if (this.polarity == "none") {
             this.color = constants.electricalLines.none;
@@ -144,7 +179,7 @@ class ElectricLine {
         }
     }
 
-    switchPolarity() {
+    swapPolarity() {
         if (this.polarity == "none") {
             this.polarity = "all";
             this.color = constants.electricalLines.all;
@@ -176,7 +211,9 @@ class ElectricLine {
 
     doHitCheck(player) {
         if (this.doesPolarityKillPlayer(player) && this.area.isPointInside(player.pos.x, player.pos.y)) {
-            player.die();
+            if (!constants.disableElectrics) {
+                player.die();
+            }
         }
     }
 }
@@ -196,6 +233,7 @@ class Map {
         this.electricLines = new Array(0);
         this.switches = new Array(0);
         this.pushingSwitchCounter = 0;
+        this.arrows = new Array(0);
 
         this.onTick = function () {
         };
@@ -214,6 +252,12 @@ class Map {
                 }
             }
             return false;
+        };
+
+        this.addArrow = function (x, y, direction) {
+            let a = new Arrow(this.f_to_r(x), this.f_to_r(y), direction);
+            this.fields[y][x].arrow = a;
+            this.arrows.push(a);
         };
 
         this.f_to_r = function (x) {
