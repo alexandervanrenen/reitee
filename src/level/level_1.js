@@ -52,10 +52,10 @@ class Level_1 {
     };
 
     createPlayer1() {
-        return new Player(new Point(map.f_to_r(4.5), map.f_to_r(6.5)), constants.player1.colorTable, constants.player1.name);
+        return new Player("player1", new Point(map.f_to_r(4.5), map.f_to_r(6.5)), constants.player1.colorTable, constants.player1.name);
     }
 
     createPlayer2() {
-        return new Player(new Point(map.f_to_r(4.5), map.f_to_r(9.5)), constants.player2.colorTable, constants.player2.name);
+        return new Player("player2", new Point(map.f_to_r(4.5), map.f_to_r(9.5)), constants.player2.colorTable, constants.player2.name);
     }
 }

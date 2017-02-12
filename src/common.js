@@ -21,13 +21,11 @@ constants = {
     player1: {
         name: "Player 1",
         colorTable: createDrawColorTable("rgba(17, 160, 255, "),
-        color: "rgb(17, 160, 255)",
     },
 
     player2: {
         name: "Player 2",
         colorTable: createDrawColorTable("rgba(243, 156, 18, "),
-        color: "rgb(243, 156, 18)",
     },
 
     backGroundColor: "black",
@@ -50,6 +48,18 @@ constants = {
     menuActiveLevelColor: "gold",
     portalSprite: {path: "assets/portal_strip4.png", width: 1920 / 4, height: 312, frameCount: 4, updateRate: 0.1},
     splashParticleColor: "red",
+
+    electricalLines: {
+        all: "rgb(243, 22, 18)",
+        none: "rgb(11, 244, 18)",
+        player1: "rgb(243, 156, 18)",
+        player2: "rgb(17, 160, 255)",
+    },
+
+    switches: {
+        pushing_normal: "rgb(77, 222, 77)",
+        pushing_pushed: "rgb(55, 123, 55)",
+    },
 };
 
 print = function (text) {

@@ -77,6 +77,14 @@ function updateObjects() {
     }
 }
 
+function updateElectricLines() {
+    for (let i = 0; i < map.electricLines.length; i++) {
+        let p = map.electricLines[i];
+        p.doHitCheck(player1);
+        p.doHitCheck(player2);
+    }
+}
+
 function doVictoryCheck() {
     if (map.portal.area.isPointInside(player1.pos.x, player1.pos.y) || map.portal.area.isPointInside(player2.pos.x, player2.pos.y)) {
         throw "Victory";
@@ -94,6 +102,13 @@ function updateSplashParticle() {
     }
 }
 
+function updateSwitches() {
+    for (let i = 0; i < map.switches.length; i++) {
+        let p = map.switches[i];
+        p.onTick();
+    }
+}
+
 function updateLogic() {
     map.tick++;
 
@@ -102,6 +117,8 @@ function updateLogic() {
     updatePlayer(player2);
     updatePlayerStyleDrag(player2);
     updateSplashParticle();
+    updateElectricLines();
+    updateSwitches();
 
     updateObjects();
 

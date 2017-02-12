@@ -59,7 +59,7 @@ function drawMenu_player(offset, player) {
 function drawMenu_maps(offset) {
     cc.font = "25px Arial";
     cc.fillStyle = constants.menuTextColor;
-    cc.fillText(map.name, offset.x, offset.y);
+    cc.fillText(map.name, offset.x, offset.y + 5);
 
     cc.font = "15px Arial";
     for (let x = 1; x <= 20; x++) {
@@ -189,6 +189,14 @@ function drawElectricLines() {
     }
 }
 
+function drawSwitches() {
+    for (let i = 0; i < map.switches.length; i++) {
+        let p = map.switches[i];
+        cc.fillStyle = p.getColor();
+        cc.fillRect(map.pos.x + p.area.x, map.pos.y + p.area.y, p.area.width, p.area.height);
+    }
+}
+
 function drawGraphics() {
     cc.fillStyle = constants.backGroundColor;
     cc.fillRect(0, 0, c.width, c.height);
@@ -202,6 +210,8 @@ function drawGraphics() {
     drawSplashParticles();
 
     drawElectricLines();
+
+    drawSwitches();
 
     drawPlayers();
 

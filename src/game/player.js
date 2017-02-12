@@ -25,7 +25,8 @@ class DragParticle {
     }
 }
 
-function Player(pos, dragColorTable, name) {
+function Player(id, pos, dragColorTable, name) {
+    this.id = id;
     this.pos = new Point(pos.x, pos.y);
     this.size = 20;
     this.move = {up: false, down: false, left: false, right: false, turbo: false};
