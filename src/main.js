@@ -6,7 +6,7 @@ window.onload = function () {
     // window.touchstart = onUserInputTouch;
     cc = c.getContext('2d');
 
-    loadLevel(new Level_4());
+    loadLevel(new Level_1());
 
     setInterval(onTick, 1000 / 60);
 };
