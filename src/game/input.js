@@ -28,3 +28,15 @@ function onUserInput(e) {
     if (!(typeof action === 'undefined'))
         action(stop);
 }
+
+mouseIsDown = false;
+
+function onUserInputTouch(e) {
+    // print(e.type);
+    //
+    // if (e.type == "click") {
+    //     mouseIsDown = true;
+    // }
+    // alert("asd");
+    map.name = "touched";
+}

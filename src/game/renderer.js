@@ -98,7 +98,7 @@ function drawBloodCount(offset) {
     } else {
         cc.font = "22px Arial";
         cc.fillStyle = constants.menuTextColor;
-        cc.fillText("ok now, now finish the level already .." + blood, offset.x, offset.y);
+        cc.fillText("ok now, finish the level already .." + blood, offset.x, offset.y);
     }
 }
 
@@ -161,6 +161,34 @@ function drawPassiveMapStructure() {
     cc.drawImage(map.backCanvas, 0, 0);
 }
 
+function drawElectricLines() {
+    for (let i = 0; i < map.electricLines.length; i++) {
+        let p = map.electricLines[i];
+
+        if (map.tick % 5 == 0)
+            p.updatePoints();
+
+        for (let j = 0; j < p.points.length; j++) {
+
+            if (j == 3) {
+                cc.lineWidth = 1;
+                cc.strokeStyle = "black";
+            } else {
+                cc.lineWidth = 2;
+                cc.strokeStyle = p.color;
+            }
+
+            cc.beginPath();
+            cc.moveTo(map.pos.x + p.begin.x, map.pos.y + p.begin.y);
+            for (let k = 0; k < p.points[j].length; k++) {
+                cc.lineTo(map.pos.x + p.points[j][k].x, map.pos.y + p.points[j][k].y);
+            }
+            cc.lineTo(map.pos.x + p.end.x, map.pos.y + p.end.y);
+            cc.stroke();
+        }
+    }
+}
+
 function drawGraphics() {
     cc.fillStyle = constants.backGroundColor;
     cc.fillRect(0, 0, c.width, c.height);
@@ -172,6 +200,8 @@ function drawGraphics() {
     }
 
     drawSplashParticles();
+
+    drawElectricLines();
 
     drawPlayers();
 

@@ -20,12 +20,14 @@ constants = {
 
     player1: {
         name: "Player 1",
-        colorTable: createDrawColorTable("rgba(17, 160, 255, ")
+        colorTable: createDrawColorTable("rgba(17, 160, 255, "),
+        color: "rgb(17, 160, 255)",
     },
 
     player2: {
         name: "Player 2",
-        colorTable: createDrawColorTable("rgba(243, 156, 18, ")
+        colorTable: createDrawColorTable("rgba(243, 156, 18, "),
+        color: "rgb(243, 156, 18)",
     },
 
     backGroundColor: "black",

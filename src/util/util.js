@@ -13,15 +13,22 @@ function Utility() {
         return Math.sqrt(a * a + b * b);
     };
 
+    this.distance_c = function (x1, y1, x2, y2) {
+        let a = x1 - x2;
+        let b = y1 - y2;
+
+        return Math.sqrt(a * a + b * b);
+    };
+
     this.removeFromArray = function (arr, pos) {
         arr[pos] = arr[arr.length - 1];
         arr.pop();
     };
 
     this.cap = function (val, min, max) {
-        if(val < min)
+        if (val < min)
             return min;
-        if(val > max)
+        if (val > max)
             return max;
         return val;
     };

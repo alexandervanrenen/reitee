@@ -2,9 +2,11 @@ window.onload = function () {
     c = document.getElementById('gc');
     window.onkeydown = onUserInput;
     window.onkeyup = onUserInput;
+    // window.touchmove = onUserInputTouch; not working ..
+    // window.touchstart = onUserInputTouch;
     cc = c.getContext('2d');
 
-    loadLevel(new Level_2());
+    loadLevel(new Level_3());
 
     setInterval(onTick, 1000 / 60);
 };
