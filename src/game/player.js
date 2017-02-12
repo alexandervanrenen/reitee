@@ -59,6 +59,7 @@ function Player(id, pos, dragColorTable, name) {
     };
 
     this.die = function () {
+        return;
         for (let i = 0; i < 200; i++) {
             map.splashParticles.push(new SplashParticle(this));
         }

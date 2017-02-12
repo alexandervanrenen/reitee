@@ -172,9 +172,11 @@ function drawElectricLines() {
 
             if (j == 3) {
                 cc.lineWidth = 1;
+                cc.strokeWidth = 1;
                 cc.strokeStyle = "black";
             } else {
                 cc.lineWidth = 2;
+                cc.strokeWidth = 2;
                 cc.strokeStyle = p.color;
             }
 
@@ -194,11 +196,16 @@ function drawSwitches() {
         let p = map.switches[i];
         cc.fillStyle = p.getColor();
         cc.fillRect(map.pos.x + p.area.x, map.pos.y + p.area.y, p.area.width, p.area.height);
+        cc.strokeStyle = "black";
+        cc.strokeWidth = 3;
+        cc.strokeRect(map.pos.x + p.area.x, map.pos.y + p.area.y, p.area.width, p.area.height);
     }
 }
 
 function drawArrows() {
     cc.strokeStyle = constants.arrowColor;
+    cc.lineWidth = 3;
+    cc.strokeWidth = 3;
     for (let i = 0; i < map.arrows.length; i++) {
         let p = map.arrows[i];
         let xOffset = map.pos.x + p.x + map.fieldSize / 2;
@@ -222,8 +229,26 @@ function drawArrows() {
                 cc.stroke();
                 break;
             }
+            case "right" : {
+                xOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
+                cc.beginPath();
+                cc.moveTo(xOffset - 5, yOffset - 10);
+                cc.lineTo(xOffset + 5, yOffset);
+                cc.lineTo(xOffset - 5, yOffset + 10);
+                cc.stroke();
+                break;
+            }
+            case "left" : {
+                xOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
+                cc.beginPath();
+                cc.moveTo(xOffset + 5, yOffset - 10);
+                cc.lineTo(xOffset - 5, yOffset);
+                cc.lineTo(xOffset + 5, yOffset + 10);
+                cc.stroke();
+                break;
+            }
             default: {
-                throw "Not Implemented";
+                throw "Unreachable";
             }
         }
     }
@@ -234,6 +259,7 @@ function drawGraphics() {
     cc.fillRect(0, 0, c.width, c.height);
 
     drawPassiveMapStructure();
+    map.onDraw();
 
     for (i = 0; i < map.gemos.length; i++) {
         map.gemos[i].draw();

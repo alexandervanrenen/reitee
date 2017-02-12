@@ -58,10 +58,10 @@ constants = {
     },
 
     switches: {
-        stand_on_normal: "rgb(77, 222, 77)",
-        stand_on_pushed: "rgb(55, 123, 55)",
-        push_once_normal: "rgb(222, 77, 77)",
-        push_once_pushed: "rgb(123, 55, 55)",
+        stand_on_normal: "rgb(153, 204, 255)",
+        stand_on_pushed: "rgb(0, 77, 153)",
+        push_once_normal: "rgb(0, 204, 163)",
+        push_once_pushed: "rgb(0, 102, 82)",
     },
 
     arrowColor: "black",

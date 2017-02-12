@@ -278,4 +278,8 @@ function loadLevel(levelGenerator) {
     map = levelGenerator.createMap();
     player1 = levelGenerator.createPlayer1();
     player2 = levelGenerator.createPlayer2();
+
+    for (let i = 0; i < 100; i++) {
+        updateLogic();
+    }
 }
