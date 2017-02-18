@@ -37,9 +37,6 @@ class Level_5 {
         map.onTick = function () {
         };
 
-        map.onDraw = function () {
-        };
-
         return map;
     };
 

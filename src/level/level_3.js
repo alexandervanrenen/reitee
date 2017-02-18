@@ -105,9 +105,6 @@ class Level_3 {
             }
         };
 
-        map.onDraw = function () {
-        };
-
         return map;
     };
 

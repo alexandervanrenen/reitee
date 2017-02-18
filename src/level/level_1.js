@@ -64,9 +64,6 @@ class Level_1 {
                 map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.0), map.f_to_r(5)), new Point(0, 1.0), 12));
         };
 
-        map.onDraw = function () {
-        };
-
         return map;
     };
 

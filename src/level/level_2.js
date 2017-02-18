@@ -48,9 +48,6 @@ class Level_2 {
             }
         };
 
-        map.onDraw = function () {
-        };
-
         return map;
     };
 

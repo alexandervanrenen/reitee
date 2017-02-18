@@ -31,7 +31,7 @@ function calculateScaling() {
     c.width = window.innerWidth;
     c.height = window.innerHeight;
 
-    console.log("width " + c.width + " height " + c.height);
+    console.log("resize to: width " + c.width + " height " + c.height);
 
     cr.width = c.width;
     cr.height = c.height;

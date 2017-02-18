@@ -278,8 +278,6 @@ function drawGraphics() {
     cc.fillRect(0, 0, c.width, c.height);
 
     drawPassiveMapStructure();
-    map.onDraw();
-
     drawProjectiles();
     drawSplashParticles();
     drawElectricLines();
