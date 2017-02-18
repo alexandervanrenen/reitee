@@ -1,3 +1,16 @@
+class Renderer {
+    constructor() {
+        this.xOffset = 0;
+        this.yOffset = 0;
+        this.width = 800;
+        this.height = 600;
+        this.scale = 1;
+    }
+
+    
+}
+cr = new Renderer();
+
 function drawCenteredRectangleInMap(x, y, width, height, color) {
     cc.fillStyle = color;
     cc.fillRect(map.pos.x + x - width / 2, map.pos.y + y - height / 2, width, height);
