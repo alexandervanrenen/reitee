@@ -267,6 +267,7 @@ class Map {
         this.portal = null;
 
         this.splashParticles = new Array(0);
+        this.deadSplashParticles = new Array(0); // Just an array of points .. needed for redrawing after resizing
     }
 }
 

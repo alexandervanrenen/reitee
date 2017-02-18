@@ -1,14 +1,15 @@
 window.onload = function () {
-    c = document.getElementById('gc');
     window.onkeydown = onUserInput;
     window.onkeyup = onUserInput;
+
+    global_canvas = document.getElementById('gc');
+    cr.canvas = global_canvas;
+    cr.context = global_canvas.getContext('2d');
+
+    loadLevel(new Level_3());
+
     window.onresize = calculateScaling;
-
-    cc = c.getContext('2d');
-    console.log(cc);
     calculateScaling();
-
-    loadLevel(new Level_1());
 
     setInterval(onTick, 1000 / 60);
 };
@@ -28,13 +29,13 @@ function onTick() {
 }
 
 function calculateScaling() {
-    c.width = window.innerWidth;
-    c.height = window.innerHeight;
+    cr.canvas.width = window.innerWidth;
+    cr.canvas.height = window.innerHeight;
 
-    console.log("resize to: width " + c.width + " height " + c.height);
+    console.log("resize to: width " + cr.canvas.width + " height " + cr.canvas.height);
 
-    cr.width = c.width;
-    cr.height = c.height;
+    cr.width = cr.canvas.width;
+    cr.height = cr.canvas.height;
     let ratio = cr.width / cr.height;
     let desiredRatio = 800 / 600;
 
@@ -46,6 +47,12 @@ function calculateScaling() {
     }
 
     cr.scale = cr.width / 800;
-    cr.xOffset = (c.width - cr.width) / 2;
-    cr.yOffset = (c.height - cr.height) / 2;
+    cr.xOffset = (cr.canvas.width - cr.width) / 2;
+    cr.yOffset = (cr.canvas.height - cr.height) / 2;
+
+    console.log("xOffset " + cr.xOffset);
+    console.log("yOffset " + cr.yOffset);
+
+    map.backCtx = null;
+    map.backCanvas = null;
 }

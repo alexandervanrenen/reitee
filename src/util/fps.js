@@ -13,9 +13,9 @@ class Fps {
             this.fps_display = "fps = " + this.fps;
             this.fps = 0;
         }
-        cc.font = "25px Arial";
-        cc.fillStyle = constants.menuTextColor;
-        cc.fillText(this.fps_display, 680, 25);
+        global_cc.font = "25px Arial";
+        global_cc.fillStyle = constants.menuTextColor;
+        global_cc.fillText(this.fps_display, 680, 25);
     };
 }
 
