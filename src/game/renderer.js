@@ -5,9 +5,8 @@ class Renderer {
         this.width = 800;
         this.height = 600;
         this.scale = 1;
+        this.map = null;
     }
-
-    
 }
 cr = new Renderer();
 
@@ -267,6 +266,13 @@ function drawArrows() {
     }
 }
 
+function drawProjectiles() {
+    for (let i = 0; i < map.projectiles.length; i++) {
+        let p = map.projectiles[i];
+        drawCenteredCircleInMapWithBorder(p.pos.x, p.pos.y, p.size, p.color, "black", 1);
+    }
+}
+
 function drawGraphics() {
     cc.fillStyle = constants.backGroundColor;
     cc.fillRect(0, 0, c.width, c.height);
@@ -274,10 +280,7 @@ function drawGraphics() {
     drawPassiveMapStructure();
     map.onDraw();
 
-    for (i = 0; i < map.gemos.length; i++) {
-        map.gemos[i].draw();
-    }
-
+    drawProjectiles();
     drawSplashParticles();
     drawElectricLines();
     drawSwitches();

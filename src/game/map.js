@@ -18,10 +18,6 @@ function StraightProjectile(pos, move, size) {
         this.pos.x += this.move.x;
         this.pos.y += this.move.y;
     };
-
-    this.draw = function () {
-        drawCenteredCircleInMapWithBorder(this.pos.x, this.pos.y, this.size, this.color, "black", 1);
-    };
 }
 
 class Switch {
@@ -225,7 +221,7 @@ class Map {
         this.fieldBounds = {x: 0, y: 0};
         this.bounds = {x: 0, y: 0};
         this.fields = new Array(0);
-        this.gemos = new Array(0);
+        this.projectiles = new Array(0);
         this.tick = 0;
         this.backCanvas = null;
         this.backCtx = null;
@@ -238,9 +234,9 @@ class Map {
         this.onTick = function () {
         };
 
-        this.removeGemo = function (obj) {
-            let pos = this.gemos.indexOf(obj);
-            util.removeFromArray(this.gemos, pos);
+        this.removeProjectile = function (obj) {
+            let pos = this.projectiles.indexOf(obj);
+            util.removeFromArray(this.projectiles, pos);
         };
 
         this.isWalkable = function (x, y) {

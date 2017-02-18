@@ -64,8 +64,8 @@ function updatePlayerStyleDrag(player) {
 }
 
 function updateObjects() {
-    for (i = 0; i < map.gemos.length; i++) {
-        let p = map.gemos[i];
+    for (i = 0; i < map.projectiles.length; i++) {
+        let p = map.projectiles[i];
         p.onTick();
 
         if (p.pos.x <= 0)
@@ -87,7 +87,7 @@ function updateObjects() {
             p.onPlayerCollision(player2);
 
         if (p.isDead)
-            util.removeFromArray(map.gemos, i--);
+            util.removeFromArray(map.projectiles, i--);
     }
 }
 

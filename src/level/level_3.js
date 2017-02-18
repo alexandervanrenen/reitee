@@ -98,10 +98,10 @@ class Level_3 {
 
         map.onTick = function () {
             if (map.tick % 60 == 0) {
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(5.3), map.f_to_r(2.0)), new Point(0, 2.0), 9));
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(5.7), map.f_to_r(2.0)), new Point(0, 2.0), 9));
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(6.3), map.f_to_r(14.0)), new Point(0, -2.0), 9));
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(6.7), map.f_to_r(14.0)), new Point(0, -2.0), 9));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.3), map.f_to_r(2.0)), new Point(0, 2.0), 9));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.7), map.f_to_r(2.0)), new Point(0, 2.0), 9));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.3), map.f_to_r(14.0)), new Point(0, -2.0), 9));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.7), map.f_to_r(14.0)), new Point(0, -2.0), 9));
             }
         };
 

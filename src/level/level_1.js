@@ -45,23 +45,23 @@ class Level_1 {
 
         map.onTick = function () {
             if ((map.tick + 30) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(13.0), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(13.0), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 45) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(12.5), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(12.5), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 60) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(12.0), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(12.0), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 75) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(11.5), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(11.5), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 90) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(11.0), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(11.0), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 105) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(10.5), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(10.5), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 120) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(10.0), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(10.0), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 135) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(5)), new Point(0, 1.0), 12));
             if ((map.tick + 150) % 200 == 0)
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(9.0), map.f_to_r(5)), new Point(0, 1.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.0), map.f_to_r(5)), new Point(0, 1.0), 12));
         };
 
         map.onDraw = function () {

@@ -43,8 +43,8 @@ class Level_2 {
 
         map.onTick = function () {
             if (map.tick % 60 == 0) {
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(7.5), map.f_to_r(13)), new Point(0, -2.0), 12));
-                map.gemos.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(3)), new Point(0, 2.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(7.5), map.f_to_r(13)), new Point(0, -2.0), 12));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(3)), new Point(0, 2.0), 12));
             }
         };
 
