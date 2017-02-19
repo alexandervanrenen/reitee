@@ -14,6 +14,15 @@ window.onload = function () {
     setInterval(onTick, 1000 / 60);
 };
 
+// Transforms mouse pos to local coords .. not used now but probably needed later
+function calcMouse(evt) {
+    let rect = global_canvas.getBoundingClientRect();
+    let root = document.documentElement;
+    let mouseX = evt.clientX - rect.left - root.scrollLeft;
+    let mouseY = evt.clientY - rect.right - root.scrollRight;
+    return {x: mouseX, y: mouseY};
+}
+
 function onTick() {
     try {
         updateLogic();
