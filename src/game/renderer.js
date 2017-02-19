@@ -10,12 +10,24 @@ class Renderer {
         this.canvas = null;
     }
 
-    transX(x) {
+    font(px, name, bold) {
+        return (px * this.scale) + "px " + name;
+    }
+
+    tgx(x) {
         return this.xOffset + (map.pos.x + x) * this.scale;
     }
 
-    transY(y) {
+    tgy(y) {
         return this.yOffset + (map.pos.y + y) * this.scale;
+    }
+
+    tmx(x) {
+        return this.xOffset + x * this.scale;
+    }
+
+    tmy(y) {
+        return this.yOffset + y * this.scale;
     }
 
     drawBackground() {
@@ -24,7 +36,7 @@ class Renderer {
     }
 
     drawMapBackground(image) {
-        this.context.drawImage(image, this.transX(0), this.transY(0));
+        this.context.drawImage(image, this.tgx(0), this.tgy(0));
     }
 
     drawRect(x, y, width, height, color) {
@@ -34,12 +46,12 @@ class Renderer {
 
     drawRectInMap(x, y, width, height, color) {
         this.context.fillStyle = color;
-        this.context.fillRect(this.transX(x), this.transY(y), width, height);
+        this.context.fillRect(this.tgx(x), this.tgy(y), width, height);
     }
 
     drawCircleWithBorderInMap(x, y, radius, color, colorBorder, borderSize) {
         this.context.beginPath();
-        this.context.arc(this.transX(x), this.transY(y), (radius / 2) * this.scale, 0, 2 * Math.PI, false);
+        this.context.arc(this.tgx(x), this.tgy(y), (radius / 2) * this.scale, 0, 2 * Math.PI, false);
         this.context.fillStyle = color;
         this.context.fill();
         this.context.lineWidth = borderSize * this.scale;
@@ -49,7 +61,7 @@ class Renderer {
 
     drawCircleInMap(x, y, radius, color, colorBorder) {
         this.context.beginPath();
-        this.context.arc(this.transX(x), this.transY(y), (radius / 2) * this.scale, 0, 2 * Math.PI, false);
+        this.context.arc(this.tgx(x), this.tgy(y), (radius / 2) * this.scale, 0, 2 * Math.PI, false);
         this.context.fillStyle = color;
         this.context.fill();
     }
@@ -102,21 +114,21 @@ function drawFields_back() {
 }
 
 function drawMenu_player(offset, player) {
-    global_cc.font = "18px Arial";
-    global_cc.fillText(player.name, offset.x, offset.y);
-    global_cc.font = "15px Arial";
-    global_cc.fillText("Death: " + player.death, offset.x + 80, offset.y);
+    cr.context.font = cr.font(18, "Arial");
+    cr.context.fillText(player.name, cr.tmx(offset.x), cr.tmy(offset.y));
+    cr.context.font = cr.font(15, "Arial");
+    cr.context.fillText("Death: " + player.death, cr.tmx(offset.x + 80), cr.tmy(offset.y));
 }
 
 function drawMenu_maps(offset) {
-    global_cc.font = "25px Arial";
-    global_cc.fillStyle = constants.menuTextColor;
-    global_cc.fillText(map.name, offset.x, offset.y + 5);
+    cr.context.font = cr.font(25, "Arial");
+    cr.context.fillStyle = constants.menuTextColor;
+    cr.context.fillText(map.name, cr.tmx(offset.x), cr.tmy(offset.y + 5));
 
-    global_cc.font = "15px Arial";
+    cr.context.font = cr.font(15, "Arial");
     for (let x = 1; x <= 20; x++) {
-        global_cc.fillStyle = x == map.id ? constants.menuActiveLevelColor : constants.menuTextColor;
-        global_cc.fillText(x, 100 + offset.x + x * 20, 1 + offset.y);
+        cr.context.fillStyle = x == map.id ? constants.menuActiveLevelColor : constants.menuTextColor;
+        cr.context.fillText(x, cr.tmx(100 + offset.x + x * 20), cr.tmy(1 + offset.y));
     }
 }
 
@@ -124,33 +136,33 @@ function drawBloodCount(offset) {
     let blood = map.blood;
 
     if (blood == 0) {
-        global_cc.font = "20px Arial";
-        global_cc.fillStyle = constants.menuTextColor;
-        global_cc.fillText("No Bloodshed", offset.x, offset.y);
+        cr.context.font = cr.font(20, "Arial");
+        cr.context.fillStyle = constants.menuTextColor;
+        cr.context.fillText("No Bloodshed", cr.tmx(offset.x), cr.tmy(offset.y));
     } else if (blood < 500) {
-        global_cc.font = "20px Arial";
-        global_cc.fillStyle = constants.menuTextColor;
-        global_cc.fillText("a little bit of blood: " + blood, offset.x, offset.y);
+        cr.context.font = cr.font(20, "Arial");
+        cr.context.fillStyle = constants.menuTextColor;
+        cr.context.fillText("a little bit of blood: " + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     } else if (blood < 1000) {
-        global_cc.font = "22px Arial";
-        global_cc.fillStyle = constants.bloodCounterLight;
-        global_cc.fillText("there is some BLOOD: " + blood, offset.x, offset.y);
+        cr.context.font = cr.font(22, "Arial");
+        cr.context.fillStyle = constants.bloodCounterLight;
+        cr.context.fillText("there is some BLOOD: " + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     } else if (blood < 2000) {
-        global_cc.font = "24px Comic Sans MS";
-        global_cc.fillStyle = constants.bloodCounterMedium;
-        global_cc.fillText("OMG, So Much BLOOD: " + blood, offset.x, offset.y);
+        cr.context.font = cr.font(24, "Comic Sans MS");
+        cr.context.fillStyle = constants.bloodCounterMedium;
+        cr.context.fillText("OMG, So Much BLOOD: " + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     } else if (blood < 5000) {
-        global_cc.font = "bold 26px Comic Sans MS";
-        global_cc.fillStyle = constants.bloodCounterMedium;
-        global_cc.fillText("WTF!! BLOOD EVERYWHERE: " + blood, offset.x, offset.y);
+        cr.context.font = "bold " + cr.font(26, "Comic Sans MS");
+        cr.context.fillStyle = constants.bloodCounterMedium;
+        cr.context.fillText("WTF!! BLOOD EVERYWHERE: " + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     } else if (blood < 10000) {
-        global_cc.font = "bolder 28px Comic Sans MS";
-        global_cc.fillStyle = constants.bloodCounterExtreme;
-        global_cc.fillText("BLOOD BLOOD BLOOD !!!!! " + blood, offset.x, offset.y);
+        cr.context.font = "bold " + cr.font(28, "Comic Sans MS");
+        cr.context.fillStyle = constants.bloodCounterExtreme;
+        cr.context.fillText("BLOOD BLOOD BLOOD !!!!! " + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     } else {
-        global_cc.font = "22px Arial";
-        global_cc.fillStyle = constants.menuTextColor;
-        global_cc.fillText("ok now, finish the level already .." + blood, offset.x, offset.y);
+        cr.context.font = cr.font(22, "Arial");
+        cr.context.fillStyle = constants.menuTextColor;
+        cr.context.fillText("ok now, finish the level already .." + blood, cr.tmx(offset.x), cr.tmy(offset.y));
     }
 }
 
@@ -161,7 +173,7 @@ function drawMenu() {
     drawBloodCount({x: 300, y: 570});
 
     if (constants.debug) {
-        fpsCounter.onUpdate(global_cc);
+        fpsCounter.onUpdate(cr);
     }
 }
 
@@ -240,11 +252,11 @@ function drawElectricLines() {
             }
 
             cr.context.beginPath();
-            cr.context.moveTo(cr.transX(p.begin.x), cr.transY(p.begin.y));
+            cr.context.moveTo(cr.tgx(p.begin.x), cr.tgy(p.begin.y));
             for (let k = 0; k < p.points[j].length; k++) {
-                cr.context.lineTo(cr.transX(p.points[j][k].x), cr.transY(p.points[j][k].y));
+                cr.context.lineTo(cr.tgx(p.points[j][k].x), cr.tgy(p.points[j][k].y));
             }
-            cr.context.lineTo(cr.transX(p.end.x), cr.transY(p.end.y));
+            cr.context.lineTo(cr.tgx(p.end.x), cr.tgy(p.end.y));
             cr.context.stroke();
         }
     }
@@ -254,10 +266,10 @@ function drawSwitches() {
     for (let i = 0; i < map.switches.length; i++) {
         let p = map.switches[i];
         cr.context.fillStyle = p.getColor();
-        cr.context.fillRect(cr.transX(p.area.x), cr.transY(p.area.y), cr.scale * p.area.width, cr.scale * p.area.height);
+        cr.context.fillRect(cr.tgx(p.area.x), cr.tgy(p.area.y), cr.scale * p.area.width, cr.scale * p.area.height);
         cr.context.strokeStyle = "black";
         cr.context.strokeWidth = cr.scale * 3;
-        cr.context.strokeRect(cr.transX(p.area.x), cr.transY(p.area.y), cr.scale * p.area.width, cr.scale * p.area.height);
+        cr.context.strokeRect(cr.tgx(p.area.x), cr.tgy(p.area.y), cr.scale * p.area.width, cr.scale * p.area.height);
     }
 }
 
@@ -273,36 +285,36 @@ function drawArrows() {
             case "up": {
                 yOffset += Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
                 cr.context.beginPath();
-                cr.context.moveTo(cr.transX(xOffset - 10), cr.transY(yOffset + 5));
-                cr.context.lineTo(cr.transX(xOffset), cr.transY(yOffset - 5));
-                cr.context.lineTo(cr.transX(xOffset + 10), cr.transY(yOffset + 5));
+                cr.context.moveTo(cr.tgx(xOffset - 10), cr.tgy(yOffset + 5));
+                cr.context.lineTo(cr.tgx(xOffset), cr.tgy(yOffset - 5));
+                cr.context.lineTo(cr.tgx(xOffset + 10), cr.tgy(yOffset + 5));
                 cr.context.stroke();
                 break;
             }
             case "down" : {
                 yOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
                 cr.context.beginPath();
-                cr.context.moveTo(cr.transX(xOffset - 10), cr.transY(yOffset - 5));
-                cr.context.lineTo(cr.transX(xOffset), cr.transY(yOffset + 5));
-                cr.context.lineTo(cr.transX(xOffset + 10), cr.transY(yOffset - 5));
+                cr.context.moveTo(cr.tgx(xOffset - 10), cr.tgy(yOffset - 5));
+                cr.context.lineTo(cr.tgx(xOffset), cr.tgy(yOffset + 5));
+                cr.context.lineTo(cr.tgx(xOffset + 10), cr.tgy(yOffset - 5));
                 cr.context.stroke();
                 break;
             }
             case "right" : {
                 xOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
                 cr.context.beginPath();
-                cr.context.moveTo(cr.transX(xOffset - 5), cr.transY(yOffset - 10));
-                cr.context.lineTo(cr.transX(xOffset + 5), cr.transY(yOffset));
-                cr.context.lineTo(cr.transX(xOffset - 5), cr.transY(yOffset + 10));
+                cr.context.moveTo(cr.tgx(xOffset - 5), cr.tgy(yOffset - 10));
+                cr.context.lineTo(cr.tgx(xOffset + 5), cr.tgy(yOffset));
+                cr.context.lineTo(cr.tgx(xOffset - 5), cr.tgy(yOffset + 10));
                 cr.context.stroke();
                 break;
             }
             case "left" : {
                 xOffset -= Math.floor(Math.sin(Math.floor(map.tick / 10)) * 5) - 2.5;
                 cr.context.beginPath();
-                cr.context.moveTo(cr.transX(xOffset + 5), cr.transY(yOffset - 10));
-                cr.context.lineTo(cr.transX(xOffset - 5), cr.transY(yOffset));
-                cr.context.lineTo(cr.transX(xOffset + 5), cr.transY(yOffset + 10));
+                cr.context.moveTo(cr.tgx(xOffset + 5), cr.tgy(yOffset - 10));
+                cr.context.lineTo(cr.tgx(xOffset - 5), cr.tgy(yOffset));
+                cr.context.lineTo(cr.tgx(xOffset + 5), cr.tgy(yOffset + 10));
                 cr.context.stroke();
                 break;
             }
@@ -331,5 +343,5 @@ function drawGraphics() {
     drawPortal();
     drawArrows();
 
-    // drawMenu();
+    drawMenu();
 }

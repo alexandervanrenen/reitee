@@ -5,7 +5,7 @@ class Fps {
         this.fps_display = "fps = 60";
     }
 
-    onUpdate(cc) {
+    onUpdate(cr) {
         let delta = (Date.now() - this.lastCalledTime) / 1000;
         this.fps++;
         if (delta > 1) {
@@ -13,9 +13,9 @@ class Fps {
             this.fps_display = "fps = " + this.fps;
             this.fps = 0;
         }
-        global_cc.font = "25px Arial";
-        global_cc.fillStyle = constants.menuTextColor;
-        global_cc.fillText(this.fps_display, 680, 25);
+        cr.context.font = cr.font(25, "Arial");
+        cr.context.fillStyle = constants.menuTextColor;
+        cr.context.fillText(this.fps_display, cr.tmx(680), cr.tmy(25));
     };
 }
 
