@@ -199,7 +199,7 @@ function drawSplashParticles() {
 
     // Redo blood counter
     if (anyoneWasDead) {
-        let imgd = map.backCtx.getImageData(x, y, global_canvas.width, global_canvas.height);
+        let imgd = map.backCtx.getImageData(x, y, cr.canvas.width, cr.canvas.height);
         let pix = imgd.data;
         map.blood = 0;
 
@@ -330,6 +330,39 @@ function drawProjectiles() {
         let p = map.projectiles[i];
         cr.drawCircleWithBorderInMap(p.pos.x, p.pos.y, p.size, p.color, "black", 1);
     }
+}
+
+function calculateScaling() {
+    let canvas = document.getElementById('gc');
+    cr.canvas = canvas;
+    cr.context = canvas.getContext('2d');
+
+    cr.canvas.width = window.innerWidth;
+    cr.canvas.height = window.innerHeight;
+
+    console.log("resize to: width " + cr.canvas.width + " height " + cr.canvas.height);
+
+    cr.width = cr.canvas.width;
+    cr.height = cr.canvas.height;
+    let ratio = cr.width / cr.height;
+    let desiredRatio = 800 / 600;
+
+    // Adjust height or width to fit our desired ratio
+    if (ratio < desiredRatio) {
+        cr.height = Math.floor(cr.width / desiredRatio);
+    } else {
+        cr.width = Math.floor(cr.height * desiredRatio);
+    }
+
+    cr.scale = cr.width / 800;
+    cr.xOffset = (cr.canvas.width - cr.width) / 2;
+    cr.yOffset = (cr.canvas.height - cr.height) / 2;
+
+    console.log("xOffset " + cr.xOffset);
+    console.log("yOffset " + cr.yOffset);
+
+    map.backCtx = null;
+    map.backCanvas = null;
 }
 
 function drawGraphics() {

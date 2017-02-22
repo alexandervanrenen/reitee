@@ -1,8 +1,27 @@
 function updatePlayer(player) {
-    // Update velocity
-    let commanded_x_direction = (player.move.left ? -1 : 0) + (player.move.right ? 1 : 0);
-    let commanded_y_direction = (player.move.up ? -1 : 0) + (player.move.down ? 1 : 0);
+    // -------------------------------------------
+    // Determine where the player wants to move to
+    // -------------------------------------------
+    let commanded_x_direction = 0;
+    let commanded_y_direction = 0;
 
+    // Mouse movement
+    if (mouseDown) {
+        commanded_x_direction = (pos.x < cr.canvas.width / 5 ? -1 : 0) + (pos.x > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
+        commanded_y_direction = (pos.y < cr.canvas.height / 5 ? -1 : 0) + (pos.y > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
+    }
+
+    // Keyboard movement
+    if (player.move.left || player.move.right) {
+        commanded_x_direction = (player.move.left ? -1 : 0) + (player.move.right ? 1 : 0);
+    }
+    if (player.move.up || player.move.down) {
+        commanded_y_direction = (player.move.up ? -1 : 0) + (player.move.down ? 1 : 0);
+    }
+
+    // -------------------------------------------
+    // Adjust speed: stop, turbo, max speed
+    // -------------------------------------------
     if (commanded_x_direction == 0 && Math.abs(player.velocity.x) > 0) { // Decelerate x
         if (Math.abs(player.velocity.x) > player.acceleration) {
             player.velocity.x -= Math.sign(player.velocity.x) * player.acceleration;
@@ -18,15 +37,16 @@ function updatePlayer(player) {
         }
     }
 
+    // Set velocity and cap
     let maxSpeed = player.move.turbo ? player.maxSpeed * 2.0 : player.maxSpeed;
-
     player.velocity.x += commanded_x_direction * (maxSpeed - player.velocity.x) * (player.move.turbo ? 0.1 : 0.5);
     player.velocity.y += commanded_y_direction * (maxSpeed - player.velocity.y) * (player.move.turbo ? 0.1 : 0.5);
-
     player.velocity.x = util.cap(player.velocity.x, -maxSpeed, maxSpeed);
     player.velocity.y = util.cap(player.velocity.y, -maxSpeed, maxSpeed);
 
-    // Arrows
+    // -------------------------------------------
+    // Adjust movement if on arrow
+    // -------------------------------------------
     let arrow = map.fields[Math.floor(player.pos.y / map.fieldSize)][Math.floor(player.pos.x / map.fieldSize)].arrow;
     if (arrow != null) {
         if (arrow.direction == "up") {
@@ -39,8 +59,9 @@ function updatePlayer(player) {
             player.velocity.x = 4;
         }
     }
-
+    // -------------------------------------------
     // Try to update position
+    // -------------------------------------------
     let x = player.pos.x + player.velocity.x;
     let y = player.pos.y + player.velocity.y;
 
