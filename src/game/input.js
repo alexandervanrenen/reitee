@@ -38,6 +38,22 @@ function calcMouse(evt) {
     return {x: mouseX, y: mouseY};
 }
 
+function copyTouch(touch) {
+   return { identifier: touch.identifier, pageX: touch.pageX, pageY: touch.pageY };
+}
+
+function ongoingTouchIndexById(idToFind) {
+  for (var i = 0; i < ongoingTouches.length; i++) {
+    var id = ongoingTouches[i].identifier;
+
+    if (id == idToFind) {
+      return i;
+    }
+  }
+  return -1;    // not found
+}
+
+ongoingTouches = [];
 mouseDown = false;
 pos = {x: 0, y: 0};
 
@@ -47,18 +63,66 @@ function setUpInput() {
 
     let root = document.getElementById("gc_wrapper");
 
-    root.addEventListener("mousedown", function (e) {
-        mouseDown = true;
-        let res = calcMouse(e);
-        pos.x = res.x;
-        pos.y = res.y;
-    });
-    root.addEventListener("mouseup", function (e) {
-        mouseDown = false;
-    });
-    root.addEventListener("mousemove", function (e) {
-        let res = calcMouse(e);
-        pos.x = res.x;
-        pos.y = res.y;
-    });
+   console.log("Modernizr.touchevents = '" + Modernizr.touchevents + "'");
+   if(!Modernizr.touchevents) {
+      root.addEventListener("mousedown", function (e) {
+           console.log("mousedown");
+           mouseDown = true;
+           let res = calcMouse(e);
+           pos.x = res.x;
+           pos.y = res.y;
+       });
+       root.addEventListener("mouseup", function (e) {
+           console.log("mouseup");
+           mouseDown = false;
+       });
+       root.addEventListener("mousemove", function (e) {
+           console.log("mousemove");
+           let res = calcMouse(e);
+           pos.x = res.x;
+           pos.y = res.y;
+       });
+    } else {
+       root.addEventListener("touchstart", function (e) {
+           console.log("touchstart ");
+          var touches = e.changedTouches;
+
+          for (let i = 0; i < touches.length; i++) {
+            console.log("touchstart:" + i + "...");
+               console.log("left = " + cr.canvas.getBoundingClientRect().left);
+               console.log("right = " + cr.canvas.width);
+            ongoingTouches.push(copyTouch(touches[i]));
+            console.log("touchstart:" + touches[i].pageX + "|" + touches[i].pageY);
+          }
+       });
+       root.addEventListener("touchmove", function (e) {
+           console.log("touchmove ");
+           touches = e.changedTouches;
+           for (let i = 0; i < touches.length; i++) {
+               let idx = ongoingTouchIndexById(touches[i].identifier);
+               if (idx >= 0) {
+                  ongoingTouches[idx].pageX = touches[i].pageX;
+                  ongoingTouches[idx].pageY = touches[i].pageY;
+                  console.log("touch updated.");
+               } else {
+                  console.log("can't figure out which touch to continue");
+               }
+           }
+       });
+       root.addEventListener("touchend", function (e) {
+           console.log("touchend ");
+           var touches = e.changedTouches;
+
+           for (let i = 0; i < touches.length; i++) {
+             let idx = ongoingTouchIndexById(touches[i].identifier);
+
+             if (idx >= 0) {
+               ongoingTouches.splice(idx, 1);
+               console.log("touch removed");
+             } else {
+               console.log("can't figure out which touch to end");
+             }
+           }
+       });
+    }
 }

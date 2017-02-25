@@ -377,4 +377,22 @@ function drawGraphics() {
     drawArrows();
 
     drawMenu();
+
+    for (let i = 0; i < ongoingTouches.length; i++) {
+
+      if(i == 0) {
+         cr.context.beginPath();
+         cr.context.arc(ongoingTouches[i].pageX, ongoingTouches[i].pageY, 30, 0, 2 * Math.PI, false);
+         cr.context.lineWidth = 3;
+         cr.context.strokeStyle = "green";
+         cr.context.stroke();
+      } else if(i == 1) {
+         cr.context.beginPath();
+         cr.context.arc(ongoingTouches[i].pageX, ongoingTouches[i].pageY, 30, 0, 2 * Math.PI, false);
+         cr.context.lineWidth = 3;
+         cr.context.strokeStyle = "red";
+         cr.context.stroke();
+      }
+    }
+
 }

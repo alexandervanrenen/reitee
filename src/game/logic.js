@@ -19,6 +19,12 @@ function updatePlayer(player) {
         commanded_y_direction = (player.move.up ? -1 : 0) + (player.move.down ? 1 : 0);
     }
 
+    // Touch movement
+    if(ongoingTouches.length >= 1) {
+       commanded_x_direction = (ongoingTouches[0].pageX < cr.canvas.width / 5 ? -1 : 0) + (ongoingTouches[0].pageX > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
+       commanded_y_direction = (ongoingTouches[0].pageY < cr.canvas.height / 5 ? -1 : 0) + (ongoingTouches[0].pageY > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
+    }
+
     // -------------------------------------------
     // Adjust speed: stop, turbo, max speed
     // -------------------------------------------
