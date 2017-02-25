@@ -19,4 +19,4 @@ class Fps {
     };
 }
 
-fpsCounter = new Fps();
+var fpsCounter = new Fps();

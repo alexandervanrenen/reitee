@@ -91,7 +91,7 @@ function updatePlayerStyleDrag(player) {
 }
 
 function updateObjects() {
-    for (i = 0; i < map.projectiles.length; i++) {
+    for (let i = 0; i < map.projectiles.length; i++) {
         let p = map.projectiles[i];
         p.onTick();
 

@@ -271,6 +271,10 @@ class Map {
     }
 }
 
+var map;
+var player1;
+var player2;
+
 function loadLevel(levelGenerator) {
     map = levelGenerator.createMap();
     player1 = levelGenerator.createPlayer1();

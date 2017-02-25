@@ -43,8 +43,8 @@ function copyTouch(touch) {
 }
 
 function ongoingTouchIndexById(idToFind) {
-  for (var i = 0; i < ongoingTouches.length; i++) {
-    var id = ongoingTouches[i].identifier;
+  for (let i = 0; i < ongoingTouches.length; i++) {
+    let id = ongoingTouches[i].identifier;
 
     if (id == idToFind) {
       return i;
@@ -53,9 +53,9 @@ function ongoingTouchIndexById(idToFind) {
   return -1;    // not found
 }
 
-ongoingTouches = [];
-mouseDown = false;
-pos = {x: 0, y: 0};
+var ongoingTouches = [];
+var mouseDown = false;
+var pos = {x: 0, y: 0};
 
 function setUpInput() {
     window.onkeydown = onUserInput;

@@ -8,7 +8,7 @@ function createDrawColorTable(scheme) { // Warning: these constants kind of depe
     return arr;
 }
 
-constants = {
+var constants = {
     fps: 30,
     debug: true,
     disableElectrics: false,

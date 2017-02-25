@@ -1,5 +1,10 @@
 {
-  "name"    : "reitee",
-  "version" : "0.0.1",
-  "main"    : "index.js"
+  "name": "reitee",
+  "version": "0.0.1",
+  "main": "index.js",
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-preset-env": "^1.1.10",
+    "babel-preset-es2015": "^6.22.0"
+  }
 }

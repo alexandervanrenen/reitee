@@ -66,7 +66,7 @@ class Renderer {
         this.context.fill();
     }
 }
-cr = new Renderer();
+var cr = new Renderer();
 
 function drawCenteredRectangleInMap(x, y, width, height, color) {
     global_cc.fillStyle = color;
@@ -100,8 +100,8 @@ function drawPlayers() {
 }
 
 function drawFields_back() {
-    for (y = 0; y < map.fields.length; y++) {
-        for (x = 0; x < map.fields[y].length; x++) {
+    for (let y = 0; y < map.fields.length; y++) {
+        for (let x = 0; x < map.fields[y].length; x++) {
             let field = map.fields[y][x];
 
             let posX = (x * map.fieldSize + 1) * cr.scale;

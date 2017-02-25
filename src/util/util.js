@@ -34,4 +34,4 @@ function Utility() {
     };
 }
 
-util = new Utility();
+var util = new Utility();
