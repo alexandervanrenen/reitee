@@ -12,5 +12,5 @@ function KeyBindings() {
     this.right_arrow = function(stop) { player2.moveRight(stop); };
 }
 
-var keyBindings = new KeyBindings();
+keyBindings = new KeyBindings();
 

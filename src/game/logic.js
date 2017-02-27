@@ -5,12 +5,6 @@ function updatePlayer(player) {
     let commanded_x_direction = 0;
     let commanded_y_direction = 0;
 
-    // Mouse movement
-    if (mouseDown) {
-        commanded_x_direction = (pos.x < cr.canvas.width / 5 ? -1 : 0) + (pos.x > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
-        commanded_y_direction = (pos.y < cr.canvas.height / 5 ? -1 : 0) + (pos.y > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
-    }
-
     // Keyboard movement
     if (player.move.left || player.move.right) {
         commanded_x_direction = (player.move.left ? -1 : 0) + (player.move.right ? 1 : 0);
@@ -20,9 +14,9 @@ function updatePlayer(player) {
     }
 
     // Touch movement
-    if(ongoingTouches.length >= 1) {
-       commanded_x_direction = (ongoingTouches[0].pageX < cr.canvas.width / 5 ? -1 : 0) + (ongoingTouches[0].pageX > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
-       commanded_y_direction = (ongoingTouches[0].pageY < cr.canvas.height / 5 ? -1 : 0) + (ongoingTouches[0].pageY > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
+    if(input.ongoingContacts.length >= 1) {
+       commanded_x_direction = (input.ongoingContacts[0].x < cr.canvas.width / 5 ? -1 : 0) + (input.ongoingContacts[0].x > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
+       commanded_y_direction = (input.ongoingContacts[0].y < cr.canvas.height / 5 ? -1 : 0) + (input.ongoingContacts[0].y > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
     }
 
     // -------------------------------------------
