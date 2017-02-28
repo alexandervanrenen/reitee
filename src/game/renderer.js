@@ -191,7 +191,7 @@ function drawSplashParticles() {
 
         if (map.splashParticles[i].isDead) {
             anyoneWasDead = true;
-            drawCenteredCircleInMap_back(p.pos.x * cr.scale, p.pos.y * cr.scale, 3, constants.splashParticleColor);
+            drawCenteredCircleInMap_back(p.pos.x * cr.scale, p.pos.y * cr.scale, 3 * cr.scale, constants.splashParticleColor);
             util.removeFromArray(map.splashParticles, i--);
             map.deadSplashParticles.push(p.pos);
         }
@@ -199,10 +199,11 @@ function drawSplashParticles() {
 
     // Redo blood counter
     if (anyoneWasDead) {
-        let imgd = map.backCtx.getImageData(x, y, cr.canvas.width, cr.canvas.height);
+        let imgd = map.backCtx.getImageData(0, 0, cr.canvas.width, cr.canvas.height);
         let pix = imgd.data;
         map.blood = 0;
 
+        // TODO: too expensive for large screens .. do smart update when drawing + this one is resolution dependent
         for (let i = 0, n = pix.length; i < n; i += 4) {
             if (pix[i] == 255 && pix[i + 1] == 0 && pix[i + 2] == 0 && pix[i + 3] == 255) {
                 map.blood++;
