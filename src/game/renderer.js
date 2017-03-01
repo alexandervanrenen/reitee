@@ -46,7 +46,7 @@ class Renderer {
 
     drawRectInMap(x, y, width, height, color) {
         this.context.fillStyle = color;
-        this.context.fillRect(this.tgx(x), this.tgy(y), width, height);
+        this.context.fillRect(this.tgx(x), this.tgy(y), width * this.scale, height * this.scale);
     }
 
     drawCircleWithBorderInMap(x, y, radius, color, colorBorder, borderSize) {
@@ -366,6 +366,34 @@ function calculateScaling() {
     map.backCanvas = null;
 }
 
+function drawGamePad() {
+    let x = 110;
+    let y = 370;
+    let size = 180;
+    let radius = size / 2;
+    cr.drawCircleInMap(x, y, size, "rgba(150, 200, 150, 0.4)");
+
+    if (input.ongoingContacts.length >= 1) {
+        let p = input.ongoingContacts[0];
+        let dist = Math.sqrt((p.x - cr.tgx(x)) * (p.x - cr.tgx(x)) + (p.y - cr.tgy(y)) * (p.y - cr.tgy(y)));
+
+        let fingerPos = {x: p.x, y: p.y};
+
+        if (dist < 1.5 * radius * cr.scale) {
+            let vec_x = fingerPos.x - cr.tgx(x);
+            let vec_y = fingerPos.y - cr.tgy(y);
+            for (let i = 5; i > 0; i--) {
+                cr.drawCircleInMap(x + vec_x * i / 7, y + vec_y * i / 7, size * i / 5.0 * 0.3, "rgba(150, 200, 150, 0.4)");
+            }
+            return;
+        }
+    }
+
+    for (let i = 5; i > 0; i--) {
+        cr.drawCircleInMap(x, y, size * i / 5.0 * 0.3, "rgba(150, 200, 150, 0.4)");
+    }
+}
+
 function drawGraphics() {
     cr.drawBackground();
     drawPassiveMapStructure();
@@ -376,24 +404,25 @@ function drawGraphics() {
     drawPlayers();
     drawPortal();
     drawArrows();
+    drawGamePad();
 
     drawMenu();
 
     for (let i = 0; i < input.ongoingContacts.length; i++) {
 
-      if(i == 0) {
-         cr.context.beginPath();
-         cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
-         cr.context.lineWidth = 3;
-         cr.context.strokeStyle = "green";
-         cr.context.stroke();
-      } else if(i == 1) {
-         cr.context.beginPath();
-         cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
-         cr.context.lineWidth = 3;
-         cr.context.strokeStyle = "red";
-         cr.context.stroke();
-      }
+        if (i == 0) {
+            cr.context.beginPath();
+            cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
+            cr.context.lineWidth = 3;
+            cr.context.strokeStyle = "green";
+            cr.context.stroke();
+        } else if (i == 1) {
+            cr.context.beginPath();
+            cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
+            cr.context.lineWidth = 3;
+            cr.context.strokeStyle = "red";
+            cr.context.stroke();
+        }
     }
 
 }

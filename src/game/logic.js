@@ -14,35 +14,38 @@ function updatePlayer(player) {
     }
 
     // Touch movement
-    if(input.ongoingContacts.length >= 1) {
-       commanded_x_direction = (input.ongoingContacts[0].x < cr.canvas.width / 5 ? -1 : 0) + (input.ongoingContacts[0].x > cr.canvas.width - cr.canvas.width / 5 ? 1 : 0);
-       commanded_y_direction = (input.ongoingContacts[0].y < cr.canvas.height / 5 ? -1 : 0) + (input.ongoingContacts[0].y > cr.canvas.height - cr.canvas.height / 5 ? 1 : 0);
+    if (input.ongoingContacts.length >= 1) {
+
+        let x = 110;
+        let y = 370;
+        let size = 180;
+        let radius = size / 2;
+
+        let c = input.ongoingContacts[0];
+
+        if (c.wasInAreaWhenStarted == null) {
+            let dist = Math.sqrt((c.x - cr.tgx(x)) * (c.x - cr.tgx(x)) + (c.y - cr.tgy(y)) * (c.y - cr.tgy(y)));
+            c.wasInAreaWhenStarted = dist < 1.5 * radius * cr.scale;
+        }
+
+        if (c.wasInAreaWhenStarted) {
+            commanded_x_direction = c.x - cr.tgx(x);
+            commanded_y_direction = c.y - cr.tgy(y);
+        }
     }
 
     // -------------------------------------------
     // Adjust speed: stop, turbo, max speed
     // -------------------------------------------
-    if (commanded_x_direction == 0 && Math.abs(player.velocity.x) > 0) { // Decelerate x
-        if (Math.abs(player.velocity.x) > player.acceleration) {
-            player.velocity.x -= Math.sign(player.velocity.x) * player.acceleration;
-        } else {
-            player.velocity.x = 0;
-        }
+    let length = Math.sqrt(commanded_x_direction * commanded_x_direction + commanded_y_direction * commanded_y_direction);
+    if(length > 0) {
+        commanded_x_direction /= length;
+        commanded_y_direction /= length;
     }
-    if (commanded_y_direction == 0 && Math.abs(player.velocity.y) > 0) { // Decelerate y
-        if (Math.abs(player.velocity.y) > player.acceleration) {
-            player.velocity.y -= Math.sign(player.velocity.y) * player.acceleration;
-        } else {
-            player.velocity.y = 0;
-        }
-    }
+    console.log(commanded_y_direction);
 
-    // Set velocity and cap
-    let maxSpeed = player.move.turbo ? player.maxSpeed * 2.0 : player.maxSpeed;
-    player.velocity.x += commanded_x_direction * (maxSpeed - player.velocity.x) * (player.move.turbo ? 0.1 : 0.5);
-    player.velocity.y += commanded_y_direction * (maxSpeed - player.velocity.y) * (player.move.turbo ? 0.1 : 0.5);
-    player.velocity.x = util.cap(player.velocity.x, -maxSpeed, maxSpeed);
-    player.velocity.y = util.cap(player.velocity.y, -maxSpeed, maxSpeed);
+    player.velocity.x = player.velocity.x * 0.8 + commanded_x_direction * 0.2;
+    player.velocity.y = player.velocity.y * 0.8 + commanded_y_direction * 0.2;
 
     // -------------------------------------------
     // Adjust movement if on arrow
@@ -50,20 +53,20 @@ function updatePlayer(player) {
     let arrow = map.fields[Math.floor(player.pos.y / map.fieldSize)][Math.floor(player.pos.x / map.fieldSize)].arrow;
     if (arrow != null) {
         if (arrow.direction == "up") {
-            player.velocity.y = -4;
+            player.velocity.y = -2;
         } else if (arrow.direction == "down") {
-            player.velocity.y = 4;
+            player.velocity.y = 2;
         } else if (arrow.direction == "left") {
-            player.velocity.x = -4;
+            player.velocity.x = -2;
         } else if (arrow.direction == "right") {
-            player.velocity.x = 4;
+            player.velocity.x = 2;
         }
     }
     // -------------------------------------------
     // Try to update position
     // -------------------------------------------
-    let x = player.pos.x + player.velocity.x;
-    let y = player.pos.y + player.velocity.y;
+    let x = player.pos.x + player.velocity.x * player.maxSpeed;
+    let y = player.pos.y + player.velocity.y * player.maxSpeed;
 
     if (map.isWalkable(x, y)) {
         player.pos.x = x;

@@ -3,6 +3,7 @@ class ContactPoint {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.wasInAreaWhenStarted = null;
     }
 
     moveTo(x, y) {
