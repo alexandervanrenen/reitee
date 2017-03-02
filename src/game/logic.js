@@ -13,36 +13,20 @@ function updatePlayer(player) {
         commanded_y_direction = (player.move.up ? -1 : 0) + (player.move.down ? 1 : 0);
     }
 
-    // Touch movement
-    if (input.ongoingContacts.length >= 1) {
-
-        let x = 110;
-        let y = 370;
-        let size = 180;
-        let radius = size / 2;
-
-        let c = input.ongoingContacts[0];
-
-        if (c.wasInAreaWhenStarted == null) {
-            let dist = Math.sqrt((c.x - cr.tgx(x)) * (c.x - cr.tgx(x)) + (c.y - cr.tgy(y)) * (c.y - cr.tgy(y)));
-            c.wasInAreaWhenStarted = dist < 1.5 * radius * cr.scale;
-        }
-
-        if (c.wasInAreaWhenStarted) {
-            commanded_x_direction = c.x - cr.tgx(x);
-            commanded_y_direction = c.y - cr.tgy(y);
-        }
+    // Touch and mouse movement
+    if (input.gamePad.wantsToMove() && input.gamePad.activePlayer == player) {
+        commanded_x_direction = input.gamePad.moveIntention.x;
+        commanded_y_direction = input.gamePad.moveIntention.y;
     }
 
     // -------------------------------------------
     // Adjust speed: stop, turbo, max speed
     // -------------------------------------------
     let length = Math.sqrt(commanded_x_direction * commanded_x_direction + commanded_y_direction * commanded_y_direction);
-    if(length > 0) {
+    if (length > 1) {
         commanded_x_direction /= length;
         commanded_y_direction /= length;
     }
-    console.log(commanded_y_direction);
 
     player.velocity.x = player.velocity.x * 0.8 + commanded_x_direction * 0.2;
     player.velocity.y = player.velocity.y * 0.8 + commanded_y_direction * 0.2;

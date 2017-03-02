@@ -279,6 +279,8 @@ function loadLevel(levelGenerator) {
     map = levelGenerator.createMap();
     player1 = levelGenerator.createPlayer1();
     player2 = levelGenerator.createPlayer2();
+    input.gamePad.activePlayer = player1;
+    input.gamePad.switchTick = 0;
 
     for (let i = 0; i < 100; i++) {
         updateLogic();

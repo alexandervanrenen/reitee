@@ -65,6 +65,13 @@ class Renderer {
         this.context.fillStyle = color;
         this.context.fill();
     }
+
+    drawCircle(x, y, radius, color, colorBorder) {
+        this.context.beginPath();
+        this.context.arc(this.tmx(x), this.tmy(y), (radius / 2) * this.scale, 0, 2 * Math.PI, false);
+        this.context.fillStyle = color;
+        this.context.fill();
+    }
 }
 var cr = new Renderer();
 
@@ -341,7 +348,7 @@ function calculateScaling() {
     cr.canvas.width = window.innerWidth;
     cr.canvas.height = window.innerHeight;
 
-    console.log("resize to: width " + cr.canvas.width + " height " + cr.canvas.height);
+    console.log("Resize to: width " + cr.canvas.width + " height " + cr.canvas.height);
 
     cr.width = cr.canvas.width;
     cr.height = cr.canvas.height;
@@ -359,39 +366,35 @@ function calculateScaling() {
     cr.xOffset = (cr.canvas.width - cr.width) / 2;
     cr.yOffset = (cr.canvas.height - cr.height) / 2;
 
-    console.log("xOffset " + cr.xOffset);
-    console.log("yOffset " + cr.yOffset);
-
     map.backCtx = null;
     map.backCanvas = null;
 }
 
 function drawGamePad() {
-    let x = 110;
-    let y = 370;
-    let size = 180;
-    let radius = size / 2;
-    cr.drawCircleInMap(x, y, size, "rgba(150, 200, 150, 0.4)");
+    let gp = input.gamePad;
 
-    if (input.ongoingContacts.length >= 1) {
-        let p = input.ongoingContacts[0];
-        let dist = Math.sqrt((p.x - cr.tgx(x)) * (p.x - cr.tgx(x)) + (p.y - cr.tgy(y)) * (p.y - cr.tgy(y)));
+    // Joy-Stick base
+    cr.drawCircle(gp.pos.x, gp.pos.y, gp.size, "rgba(150, 200, 150, 0.4)");
 
-        let fingerPos = {x: p.x, y: p.y};
-
-        if (dist < 1.5 * radius * cr.scale) {
-            let vec_x = fingerPos.x - cr.tgx(x);
-            let vec_y = fingerPos.y - cr.tgy(y);
-            for (let i = 5; i > 0; i--) {
-                cr.drawCircleInMap(x + vec_x * i / 7, y + vec_y * i / 7, size * i / 5.0 * 0.3, "rgba(150, 200, 150, 0.4)");
-            }
-            return;
-        }
+    // Joy-Stick highlight
+    gp.updateJoyStickPosition();
+    if (gp.wantsToMove()) {
+        cr.drawCircle(gp.joyStickPosition.x, gp.joyStickPosition.y, gp.size * 0.6, "rgba(210, 210, 210, 0.8)");
+    } else {
+        cr.drawCircle(gp.joyStickPosition.x, gp.joyStickPosition.y, gp.size * 0.6, "rgba(140, 190, 140, 0.4)");
     }
 
-    for (let i = 5; i > 0; i--) {
-        cr.drawCircleInMap(x, y, size * i / 5.0 * 0.3, "rgba(150, 200, 150, 0.4)");
+    // Draw switch area
+    if(gp.activePlayer == player1) {
+        cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player1.colorTable[Math.min((map.tick - gp.switchTick) / 3, 10)]);
+    } else {
+        cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player2.colorTable[Math.min((map.tick - gp.switchTick) / 3, 10)]);
     }
+    // if(gp.activePlayer == player1) {
+    //     cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player1.colorTable[Math.min(Math.round((map.tick - gp.switchTick) / 3), 10)]);
+    // } else {
+    //     cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player2.colorTable[Math.min(Math.round((map.tick - gp.switchTick) / 3), 10)]);
+    // }
 }
 
 function drawGraphics() {
@@ -408,17 +411,18 @@ function drawGraphics() {
 
     drawMenu();
 
-    for (let i = 0; i < input.ongoingContacts.length; i++) {
+    for (let i = 0; i < input.gamePad.ongoingContacts.length; i++) {
+        let c = input.gamePad.ongoingContacts[i];
 
         if (i == 0) {
             cr.context.beginPath();
-            cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
+            cr.context.arc(cr.tmx(c.x), cr.tmy(c.y), 30, 0, 2 * Math.PI, false);
             cr.context.lineWidth = 3;
             cr.context.strokeStyle = "green";
             cr.context.stroke();
         } else if (i == 1) {
             cr.context.beginPath();
-            cr.context.arc(input.ongoingContacts[i].x, input.ongoingContacts[i].y, 30, 0, 2 * Math.PI, false);
+            cr.context.arc(cr.tmx(c.x), cr.tmy(c.y), 30, 0, 2 * Math.PI, false);
             cr.context.lineWidth = 3;
             cr.context.strokeStyle = "red";
             cr.context.stroke();
