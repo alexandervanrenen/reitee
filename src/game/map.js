@@ -20,8 +20,48 @@ function StraightProjectile(pos, move, size) {
     };
 }
 
+class TwisterProjectile {
+
+    constructor(center, radius, starting_angle, speed, size) {
+        this.center = {x: center.x, y: center.y};
+        this.radius = radius;
+        this.angle = starting_angle;
+        this.size = size;
+        this.speed = speed;
+        this.color = constants.projectile.color;
+        this.isDead = false;
+        this.pos = {x: this.center.x + Math.cos(this.angle) * this.radius, y: this.center.y + Math.sin(this.angle) * this.radius};
+    }
+
+    onWallCollision() {
+        // this.isDead = true;
+    };
+
+    onPlayerCollision(player) {
+        player.die();
+        this.isDead = true;
+    };
+
+    onTick() {
+        this.angle += this.speed * map.twisterDirection;
+        if (this.angle >= 360) {
+            this.angle -= 360;
+        }
+        this.pos.x = this.center.x + Math.cos(this.angle) * this.radius;
+        this.pos.y = this.center.y + Math.sin(this.angle) * this.radius;
+    };
+
+    static createTwister(map, center, distance, wings, projectiles_per_wing, speed, size) {
+        for (let w = 0; w < wings; w++) {
+            for (let i = 1; i < projectiles_per_wing; i++) {
+                map.projectiles.push(new TwisterProjectile(center, map.f_to_r(i * distance), (2 * Math.PI / wings) * w + i * 0.1, speed, size));
+            }
+        }
+    };
+}
+
 class Switch {
-    constructor(type, x, y, width, height) {
+    constructor(type, x, y, width, height, action) {
         this.type = type;
         if (this.type == "stand_on") {
             this.colorNormal = constants.switches.stand_on_normal;
@@ -33,14 +73,13 @@ class Switch {
         this.area = new Area(x, y, width, height);
         this.someoneIn = false;
         this.isDown = false;
+        this.action = action;
     }
 
     reset() {
         if (this.type == "push_once") {
             if (this.isDown) {
-                for (let x of map.electricLines) {
-                    x.swapPolarity();
-                }
+                this.action();
                 this.isDown = false;
             }
             return;
@@ -62,17 +101,13 @@ class Switch {
                 // Someone entered
                 if (this.type == "stand_on") {
                     if (map.pushingSwitchCounter == 0) {
-                        for (let x of map.electricLines) {
-                            x.swapPolarity();
-                        }
+                        this.action();
                     }
                     map.pushingSwitchCounter++;
                 } else if (this.type == "push_once") {
                     if (this.isDown == 0) {
                         this.isDown = true;
-                        for (let x of map.electricLines) {
-                            x.swapPolarity();
-                        }
+                        this.action();
                     }
                 } else {
                     throw "Not Implemented";
@@ -85,9 +120,7 @@ class Switch {
                 if (this.type == "stand_on") {
                     map.pushingSwitchCounter--;
                     if (map.pushingSwitchCounter == 0) {
-                        for (let x of map.electricLines) {
-                            x.swapPolarity();
-                        }
+                        this.action();
                     }
                 } else if (this.type == "push_once") {
                 } else {
@@ -96,6 +129,16 @@ class Switch {
             }
             this.someoneIn = false;
         }
+    }
+
+    static swapPolarityAction() {
+        for (let x of map.electricLines) {
+            x.swapPolarity();
+        }
+    }
+
+    static invertTwisters() {
+        map.twisterDirection *= -1;
     }
 }
 
@@ -230,6 +273,7 @@ class Map {
         this.switches = new Array(0);
         this.pushingSwitchCounter = 0;
         this.arrows = new Array(0);
+        this.twisterDirection = 1;
 
         this.onTick = function () {
         };

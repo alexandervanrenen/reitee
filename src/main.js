@@ -1,7 +1,7 @@
 window.onload = function () {
 
     input = new Input();
-    loadLevel(new Level_1());
+    loadLevel(new Level_5());
     input.setUp();
 
     window.onresize = calculateScaling;

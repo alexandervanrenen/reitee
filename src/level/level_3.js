@@ -65,15 +65,15 @@ class Level_3 {
         map.electricLines.push(new ElectricLine(map.fp_to_rp(16.5, 3), map.fp_to_rp(16.5, 5), "player1"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(19.5, 3), map.fp_to_rp(19.5, 5), "player2"));
 
-        map.switches.push(new Switch("stand_on", map.f_to_r(11.66), map.f_to_r(3.66), 20, 20));
-        map.switches.push(new Switch("stand_on", map.f_to_r(17.66), map.f_to_r(3.66), 20, 20));
+        map.switches.push(new Switch("stand_on", map.f_to_r(11.66), map.f_to_r(3.66), 20, 20, Switch.swapPolarityAction));
+        map.switches.push(new Switch("stand_on", map.f_to_r(17.66), map.f_to_r(3.66), 20, 20, Switch.swapPolarityAction));
 
         // Middle way
         map.electricLines.push(new ElectricLine(map.fp_to_rp(17.5, 6), map.fp_to_rp(17.5, 8), "all"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(13.5, 6), map.fp_to_rp(13.5, 8), "none"));
 
-        map.switches.push(new Switch("push_once", map.f_to_r(18.16), map.f_to_r(6.66), 20, 20));
-        map.switches.push(new Switch("push_once", map.f_to_r(14.16), map.f_to_r(6.66), 20, 20));
+        map.switches.push(new Switch("push_once", map.f_to_r(18.16), map.f_to_r(6.66), 20, 20, Switch.swapPolarityAction));
+        map.switches.push(new Switch("push_once", map.f_to_r(14.16), map.f_to_r(6.66), 20, 20, Switch.swapPolarityAction));
 
         // Bottom way
         map.addArrow(11, 8, "down");
@@ -94,7 +94,7 @@ class Level_3 {
         map.addArrow(16, 9, "left");
 
         map.electricLines.push(new ElectricLine(map.fp_to_rp(19.5, 12), map.fp_to_rp(19.5, 13), "all"));
-        map.switches.push(new Switch("push_once", map.f_to_r(17.66), map.f_to_r(11.16), 20, 20));
+        map.switches.push(new Switch("push_once", map.f_to_r(17.66), map.f_to_r(11.16), 20, 20, Switch.swapPolarityAction));
 
         map.onTick = function () {
             if (map.tick % 60 == 0) {

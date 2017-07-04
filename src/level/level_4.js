@@ -48,9 +48,9 @@ class Level_4 {
         map.electricLines.push(new ElectricLine(map.fp_to_rp(17, 11), map.fp_to_rp(18, 11), "player2"));
         map.electricLines.push(new ElectricLine(map.fp_to_rp(17, 5), map.fp_to_rp(18, 5), "player1"));
 
-        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(3.66), 20, 20));
-        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(11.66), 20, 20));
-        map.switches.push(new Switch("push_once", map.f_to_r(16.15), map.f_to_r(12.15), 20, 20));
+        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(3.66), 20, 20, Switch.swapPolarityAction));
+        map.switches.push(new Switch("push_once", map.f_to_r(11.66), map.f_to_r(11.66), 20, 20, Switch.swapPolarityAction));
+        map.switches.push(new Switch("push_once", map.f_to_r(16.15), map.f_to_r(12.15), 20, 20, Switch.swapPolarityAction));
 
         map.addArrow(15, 5, "up");
         map.addArrow(15, 6, "up");
