@@ -14,6 +14,7 @@ class Level_4 {
             sprite: new Sprite(constants.portalSprite),
             next: new Level_5()
         };
+        map.resetAfterDeath = true;
 
         map.fields = new Array(map.fieldBounds.y);
         for (let y = 0; y < map.fieldBounds.y; y++) {

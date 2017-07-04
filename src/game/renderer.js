@@ -338,6 +338,7 @@ function drawProjectiles() {
         let p = map.projectiles[i];
         cr.drawCircleWithBorderInMap(p.pos.x, p.pos.y, p.size, p.color, "black", 1);
     }
+    cr.drawCircleWithBorderInMap(map.f_to_r(11.0), map.f_to_r(8), map.f_to_r(10.4), "rgba(0,0,0,0)", "rgba(255,0,0,0.3)", 3);
 }
 
 function calculateScaling() {
@@ -385,7 +386,7 @@ function drawGamePad() {
     }
 
     // Draw switch area
-    if(gp.activePlayer == player1) {
+    if (gp.activePlayer == player1) {
         cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player1.colorTable[Math.min((map.tick - gp.switchTick) / 3, 10)]);
     } else {
         cr.drawCircle(gp.switchPos.x, gp.switchPos.y, gp.size, constants.player2.colorTable[Math.min((map.tick - gp.switchTick) / 3, 10)]);

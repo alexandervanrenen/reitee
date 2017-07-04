@@ -274,6 +274,7 @@ class Map {
         this.pushingSwitchCounter = 0;
         this.arrows = new Array(0);
         this.twisterDirection = 1;
+        this.resetAfterDeath = true;
 
         this.onTick = function () {
         };

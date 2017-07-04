@@ -64,14 +64,16 @@ function Player(id, pos, dragColorTable, name) {
 
         this.death++;
         this.onTeleport(this.spawnPos);
-        if (player1 != this) {
-            player1.onTeleport(player1.spawnPos);
-        } else {
-            player2.onTeleport(player2.spawnPos);
-        }
+        if (map.resetAfterDeath) {
+            if (player1 != this) {
+                player1.onTeleport(player1.spawnPos);
+            } else {
+                player2.onTeleport(player2.spawnPos);
+            }
 
-        for (let i = 0; i < map.switches.length; i++) {
-            map.switches[i].reset();
+            for (let i = 0; i < map.switches.length; i++) {
+                map.switches[i].reset();
+            }
         }
     };
 

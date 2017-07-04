@@ -9,6 +9,7 @@ class Level_5 {
         map.fieldSize = 30;
         map.fieldBounds = {x: 24, y: 16};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
+        map.resetAfterDeath = false;
         map.portal = {
             area: new Area(map.f_to_r(3.5), map.f_to_r(7.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
@@ -32,6 +33,12 @@ class Level_5 {
 
                 // Upper wall
                 if (2 < x && x < 8 && y == 5) {
+                    map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable, arrow: null};
+                    continue;
+                }
+
+                // Upper corner
+                if ((x == 15 && y == 5) || (x == 16 && y == 4) || (x == 17 && y == 3)) {
                     map.fields[y][x] = {walkable: false, color: constants.fields.non_walkable, arrow: null};
                     continue;
                 }

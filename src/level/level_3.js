@@ -23,6 +23,7 @@ class Level_3 {
         map.fieldSize = 30;
         map.fieldBounds = {x: 24, y: 16};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
+        map.resetAfterDeath = true;
         map.portal = {
             area: new Area(map.f_to_r(14), map.f_to_r(9.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
