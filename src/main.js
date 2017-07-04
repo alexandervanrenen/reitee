@@ -1,7 +1,25 @@
-window.onload = function () {
+function pickLevel() {
+    let url = new URL("http://www.anizmow.com?" + window.location.search.substring(1));
+    console.log(url);
+    let c = url.searchParams.get("level");
+    switch (c) {
+        case "1":
+            return new Level_1();
+        case "2":
+            return new Level_2();
+        case "3":
+            return new Level_3();
+        case "4":
+            return new Level_4();
+        case "5":
+        default:
+            return new Level_5();
+    }
+}
 
+window.onload = function () {
     input = new Input();
-    loadLevel(new Level_5());
+    loadLevel(pickLevel());
     input.setUp();
 
     window.onresize = calculateScaling;
