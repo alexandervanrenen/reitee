@@ -9,7 +9,6 @@ class Level_2 {
         map.fieldSize = 30;
         map.fieldBounds = {x: 24, y: 16};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
-        map.resetAfterDeath = false;
         map.portal = {
             area: new Area(map.f_to_r(14), map.f_to_r(7.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
@@ -43,9 +42,9 @@ class Level_2 {
         }
 
         map.onTick = function () {
-            if (map.tick % 60 == 0) {
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(7.5), map.f_to_r(13)), new Point(0, -2.0), 12));
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(3)), new Point(0, 2.0), 12));
+            if (map.tick % 50 == 0 && map.tick <= 150) {
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(7.5), map.f_to_r(13)), new Point(0, -2.0), 12, StraightProjectile.reSpawnOnCollision));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(9.5), map.f_to_r(3)), new Point(0, 2.0), 12, StraightProjectile.reSpawnOnCollision));
             }
         };
 

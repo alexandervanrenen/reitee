@@ -23,7 +23,6 @@ class Level_3 {
         map.fieldSize = 30;
         map.fieldBounds = {x: 24, y: 16};
         map.bounds = {x: map.fieldBounds.x * map.fieldSize, y: map.fieldBounds.y * map.fieldSize};
-        map.resetAfterDeath = true;
         map.portal = {
             area: new Area(map.f_to_r(14), map.f_to_r(9.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
@@ -98,11 +97,11 @@ class Level_3 {
         map.switches.push(new Switch("push_once", map.f_to_r(17.66), map.f_to_r(11.16), 20, 20, Switch.swapPolarityAction));
 
         map.onTick = function () {
-            if (map.tick % 60 == 0) {
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.3), map.f_to_r(2.0)), new Point(0, 2.0), 9));
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.7), map.f_to_r(2.0)), new Point(0, 2.0), 9));
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.3), map.f_to_r(14.0)), new Point(0, -2.0), 9));
-                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.7), map.f_to_r(14.0)), new Point(0, -2.0), 9));
+            if (map.tick % 60 == 0 && map.tick <= 180) {
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.3), map.f_to_r(2.0)), new Point(0, 2.0), 9, StraightProjectile.reSpawnOnCollision));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(5.7), map.f_to_r(2.0)), new Point(0, 2.0), 9, StraightProjectile.reSpawnOnCollision));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.3), map.f_to_r(14.0)), new Point(0, -2.0), 9, StraightProjectile.reSpawnOnCollision));
+                map.projectiles.push(new StraightProjectile(new Point(map.f_to_r(6.7), map.f_to_r(14.0)), new Point(0, -2.0), 9, StraightProjectile.reSpawnOnCollision));
             }
         };
 

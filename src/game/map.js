@@ -1,23 +1,37 @@
-function StraightProjectile(pos, move, size) {
-    this.pos = {x: pos.x, y: pos.y};
-    this.move = move;
-    this.size = size;
-    this.color = constants.projectile.color;
-    this.isDead = false;
+class StraightProjectile {
 
-    this.onWallCollision = function () {
-        this.isDead = true;
+    constructor(pos, move, size, onCollisionAction) {
+        this.startPos = {x: pos.x, y: pos.y};
+        this.pos = {x: pos.x, y: pos.y};
+        this.move = move;
+        this.size = size;
+        this.color = constants.projectile.color;
+        this.isDead = false;
+        this.onCollisionAction = onCollisionAction;
+    }
+
+    onWallCollision() {
+        this.onCollisionAction(this);
     };
 
-    this.onPlayerCollision = function (player) {
+    onPlayerCollision(player) {
         player.die();
         this.isDead = true;
     };
 
-    this.onTick = function () {
+    onTick() {
         this.pos.x += this.move.x;
         this.pos.y += this.move.y;
     };
+
+    static dieOnCollision(particle) {
+        particle.isDead = true;
+    }
+
+    static reSpawnOnCollision(particle) {
+        particle.pos.x = particle.startPos.x;
+        particle.pos.y = particle.startPos.y;
+    }
 }
 
 class TwisterProjectile {
@@ -274,7 +288,6 @@ class Map {
         this.pushingSwitchCounter = 0;
         this.arrows = new Array(0);
         this.twisterDirection = 1;
-        this.resetAfterDeath = true;
 
         this.onTick = function () {
         };
