@@ -2,19 +2,9 @@ function pickLevel() {
     let url = new URL("http://www.anizmow.com?" + window.location.search.substring(1));
     console.log(url);
     let c = url.searchParams.get("level");
-    switch (c) {
-        case "1":
-            return new Level_1();
-        case "2":
-            return new Level_2();
-        case "3":
-            return new Level_3();
-        case "4":
-            return new Level_4();
-        case "5":
-        default:
-            return new Level_5();
-    }
+    let level = parseInt(c);
+    console.log(level);
+    return level - 1 < levels.length ? levels[level - 1] : levels[0];
 }
 
 window.onload = function () {
@@ -35,7 +25,7 @@ function onTick() {
     }
     catch (err) {
         if (err == "Victory") {
-            loadLevel(map.portal.next);
+            loadLevel(map.id > levels.length ? levels[map.id - 1] : levels[map.id]);
         } else {
             throw err;
         }

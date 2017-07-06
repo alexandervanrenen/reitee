@@ -26,7 +26,6 @@ class Level_3 {
         map.portal = {
             area: new Area(map.f_to_r(14), map.f_to_r(9.5), 30, 30),
             sprite: new Sprite(constants.portalSprite),
-            next: new Level_4()
         };
 
         map.fields = new Array(map.fieldBounds.y);
