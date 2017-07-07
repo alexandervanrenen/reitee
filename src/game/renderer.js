@@ -407,7 +407,7 @@ function drawGraphics() {
     drawPlayers();
     drawPortal();
     drawArrows();
-    drawGamePad();
+    // drawGamePad();
 
     drawMenu();
 
